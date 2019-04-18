@@ -1,5 +1,5 @@
-# Handwriting recognition: 
-## Dead Sea Scrolls project
+# Pirates of the Dead Sea: 
+## Handwriting recognition project
 
 [Report](https://www.overleaf.com/7712926279ydtkjbhwzrhd)
 
