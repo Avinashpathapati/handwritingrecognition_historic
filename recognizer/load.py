@@ -12,7 +12,7 @@ def load_data():
   parser = argparse.ArgumentParser()
   parser.add_argument("-d", "--data", required=True,
                   help="path to input image data directory")
-  #parser.add_argument("-p", "--plot", required=True,
+  #parser.add_argument("-o", "--output", required=True,
                   #help="path to output images with recognized characters")
   arguments = vars(parser.parse_args())
 

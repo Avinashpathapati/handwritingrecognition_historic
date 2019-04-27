@@ -12,16 +12,16 @@ def normalize(image):
   return image / 255
 
 def smooth(image):
-  #image = cv.medianBlur(image,21)
-  image = cv.GaussianBlur(image, (5,5), 0)
+  #image = cv.medianBlur(image, 5)
+  image = cv.GaussianBlur(image, (5, 5), 0)
   return image
 
 def binarize(image):
-  #image = cv.adaptiveThreshold(image,255,cv.ADAPTIVE_THRESH_MEAN_C,
-                              #cv.THRESH_BINARY,11,2)
-  #image = cv.adaptiveThreshold(image,255,cv.ADAPTIVE_THRESH_GAUSSIAN_C,
-                              #cv.THRESH_BINARY,11,2)
-  image = cv.threshold(image, 0, 255, cv.THRESH_BINARY+cv.THRESH_OTSU)[1]
+  #image = cv.adaptiveThreshold(image, 255, cv.ADAPTIVE_THRESH_MEAN_C,
+                              #cv.THRESH_BINARY, 5, 2)
+  #image = cv.adaptiveThreshold(image, 255, cv.ADAPTIVE_THRESH_GAUSSIAN_C,
+                               #cv.THRESH_BINARY, 3, 1)
+  image = cv.threshold(image, 0, 255, cv.THRESH_BINARY + cv.THRESH_OTSU)[1]
   return image
 
 def preprocess(data):
