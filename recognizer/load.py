@@ -4,7 +4,7 @@
 
 import argparse
 import os
-import cv2
+import cv2 as cv
 
 
 def load_data():
@@ -23,7 +23,7 @@ def load_data():
   arguments["data"] = arguments["data"] + "/"
   for file in os.listdir(arguments["data"]):
     if "fused" in str(file):
-      image = cv2.imread(arguments["data"] + str(file), cv2.IMREAD_GRAYSCALE)
+      image = cv.imread(arguments["data"] + str(file), cv.IMREAD_GRAYSCALE)
       data.append(image)
 
   return data
