@@ -5,9 +5,6 @@
 import argparse
 import os
 import cv2
-import matplotlib.pyplot as plt
-
-from PIL import Image
 
 
 def load_data():
@@ -19,18 +16,14 @@ def load_data():
                   #help="path to output images with recognized characters")
   arguments = vars(parser.parse_args())
 
-  print("LOAD: loading images...")
+  print("loading images...")
   data = []
 
   # Load the grayscale images into the data list.
   arguments["data"] = arguments["data"] + "/"
   for file in os.listdir(arguments["data"]):
     if "fused" in str(file):
-      image = cv2.imread(arguments["data"] + str(file))
+      image = cv2.imread(arguments["data"] + str(file), cv2.IMREAD_GRAYSCALE)
       data.append(image)
 
-  print(len(data))
-  
-
-
-
+  return data
