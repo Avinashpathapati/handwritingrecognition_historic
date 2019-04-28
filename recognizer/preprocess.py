@@ -1,6 +1,6 @@
 # Preprocessing module
 # Author: Andreas Pentaliotis
-# Module to implement preprocessing of the data
+# Module to implement functions for preprocessing the images.
 
 import cv2 as cv
 import numpy as np
@@ -13,7 +13,7 @@ def normalize(image):
 
 def smooth(image):
   #image = cv.medianBlur(image, 5)
-  image = cv.GaussianBlur(image, (5, 5), 0)
+  image = cv.GaussianBlur(image, (5, 5), 8)
   return image
 
 def binarize(image):
