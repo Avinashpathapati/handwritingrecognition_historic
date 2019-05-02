@@ -21,7 +21,7 @@ def binarize(image):
   #image = cv.adaptiveThreshold(image, 255, cv.ADAPTIVE_THRESH_MEAN_C,
                               #cv.THRESH_BINARY, 5, 2)
   #image = cv.adaptiveThreshold(image, 255, cv.ADAPTIVE_THRESH_GAUSSIAN_C,
-                               #cv.THRESH_BINARY, 3, 1)
+                              #cv.THRESH_BINARY, 3, 1)
   image = cv.threshold(image, 0, 255, cv.THRESH_BINARY + cv.THRESH_OTSU)[1]
   return image
 
@@ -29,14 +29,12 @@ def thresholded_binarisation(image,threshold):
   image = cv.threshold(image, threshold, 255,cv.THRESH_BINARY)[1]
   return image
 
-
 def preprocess(data):
   print("preprocessing images...")
   
   data = [smooth(x) for x in data]
   data = [binarize(x) for x in data]
-  data = [normalize(x) for x in data]
-
+  #data = [normalize(x) for x in data]
   return data
 
 

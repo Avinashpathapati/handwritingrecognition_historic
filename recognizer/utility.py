@@ -51,7 +51,6 @@ def load_data(path):
 
   return data
 
-
 def load_single_image(image_path,image_name,load_greyscale=False):
   img = image_path + str(image_name)
   if not os.path.exists(img):
