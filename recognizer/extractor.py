@@ -22,7 +22,6 @@ class ExtractorByOpening():
 		opening = cv.morphologyEx(img, cv.MORPH_OPEN, self.kernel)
 		return opening
 
-
 	def filter_cc(self,img):
 		output = cv.connectedComponentsWithStats(image=img)
 		print(output[0])
@@ -32,34 +31,48 @@ class ExtractorByOpening():
 	def save_dialated_image(self,image_path,image_name):
 		pass
 
-	def get_mask_of_centre(self,im):
-		h, w = im.shape
-		seed = (int(w / 2), (int)(h / 2))
+	def find_nearest_white(self, image, target):
+		nonzero = np.argwhere(image == 255)
+		distances = np.sqrt((nonzero[:,0] - target[0]) ** 2 + (nonzero[:,1] - target[1]) ** 2)
+		nearest_index = np.argmin(distances)
+		return nonzero[nearest_index]
 
-		mask = np.zeros((h + 2, w + 2), np.uint8)
+	def get_biggest_component(self, image):
+		nb_components, output, stats, centroids = cv.connectedComponentsWithStats(image, connectivity=4)
+		sizes = stats[:, -1]
 
+		max_label = 1
+		max_size = sizes[1]
+		for i in range(2, nb_components):
+			if sizes[i] > max_size:
+				max_label = i
+				max_size = sizes[i]
 
-		floodflags = 4
-		floodflags |= cv.FLOODFILL_MASK_ONLY
-		floodflags |= (255 << 8)
+		mask = np.zeros(output.shape)
+		mask[output == max_label] = 255
+		mask = mask.astype(np.uint8)
 
-		num, im, mask, rect = cv.floodFill(im, mask, seed, 1, 0, 0, floodflags)
-		mask = cv.resize(mask, (w, h))
 		return mask
 
-	def get_center(self, image):
+	def extract_text(self, image):
 		mask = self.area_closing(image)
 		mask = self.area_opening(mask)
-		mask = thresholded_binarisation(mask,25) #Hypeparameter is threshold
-		mask = self.get_mask_of_centre(mask)
+		mask = thresholded_binarisation(mask, 25) #Hypeparameter is threshold
+		mask = self.get_biggest_component(mask)
 		return cv.bitwise_and(image, image, mask = mask)
 
 	def testing_start(self):
 		image_path = '/home/anpenta/Desktop/handwriting-recognizer/data/image-data/'
-		image_name = 'P423-1-Fg002-R-C01-R01-fused.jpg'
+		image_name = 'P166-Fg002-R-C01-R01-fused.jpg'
 
-		image = self.load_image(image_path,image_name,load_greyscale=True)
-		image = self.get_center(image)
+		image = self.load_image(image_path, image_name, load_greyscale=True)
+		#image = self.area_closing(image)
+		#image = self.area_opening(image)
+		#image = thresholded_binarisation(image, 25)
+		#image = self.get_biggest_component(image)
+		#image = self.get_mask_of_centre(image)
+		
+		image = self.extract_text(image)
 		
 		plot_matplotlib(image)
 

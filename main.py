@@ -1,6 +1,6 @@
 from recognizer.extractor import ExtractorByOpening
 from recognizer.preprocess import preprocess_single
-from recognizer.utility import load_data, save_opencv
+from recognizer.utility import load_data, save_opencv, plot_opencv, plot_matplotlib
 
 
 if __name__ == '__main__':
@@ -16,7 +16,7 @@ if __name__ == '__main__':
   		os.makedirs("../output")
 	i = 0
 	for image in data:
-		image = extractor.get_center(image)
+		image = extractor.extract_text(image)
 		save_opencv(image, '../output/', str(i) + '.jpg')
 		i += 1
 	#"""
