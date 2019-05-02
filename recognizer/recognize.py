@@ -2,8 +2,8 @@
 # Author: Andreas Pentaliotis
 # Module to implement handwriting recognition on the given images.
 
-from utility import plot, plot_histogram, load_data, get_input_arguments
-from preprocess import binarize, smooth, normalize, preprocess
+from recognizer.utility import plot, plot_histogram, load_data, get_input_arguments
+from recognizer.preprocess import binarize, smooth, normalize, preprocess
 
 
 arguments = get_input_arguments()

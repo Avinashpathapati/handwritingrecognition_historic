@@ -6,11 +6,21 @@ import matplotlib.pyplot as plt
 import argparse
 import os
 import cv2 as cv
+import numpy as np
 
 from PIL import Image
 
 
 def plot(image):
+  # plt.imshow(Image.fromarray(image))
+  # plt.show()
+  winname='PLOT'
+  cv.imshow(winname,image)
+  cv.waitKey(0)
+  cv.destroyWindow(winname)
+
+
+def plot_matplotlib(image):
   plt.imshow(Image.fromarray(image))
   plt.show()
 
@@ -40,3 +50,18 @@ def load_data(path):
       data.append(image)
 
   return data
+
+
+def load_single_image(image_path,image_name,load_greyscale=False):
+  img = image_path + str(image_name)
+  if not os.path.exists(img):
+    raise Exception('Path does not exist')
+
+  if load_greyscale:
+    image = cv.imread(image_path + str(image_name),cv.IMREAD_GRAYSCALE)
+  else:
+    print('in here')
+    image = cv.imread(image_path + str(image_name),cv.IMREAD_UNCHANGED)
+
+  #image = cv.imread(image_path + str(image_name), cv.IMREAD_GRAYSCALE)
+  return image
