@@ -14,7 +14,7 @@ def normalize(image):
 
 def smooth(image):
   #image = cv.medianBlur(image, 5)
-  image = cv.GaussianBlur(image, (5, 5), 8)
+  image = cv.GaussianBlur(image, (5, 5), 0)
   return image
 
 def binarize(image):
