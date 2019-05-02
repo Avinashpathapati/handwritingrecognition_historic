@@ -4,7 +4,7 @@
 
 import cv2 as cv
 import numpy as np
-from recognizer.utility import load_single_image,plot
+from recognizer.utility import load_single_image,plot_opencv
 
 from matplotlib import pyplot as plt
 
@@ -50,6 +50,6 @@ def preprocess_single():
   img = normalize(img)
 
   print(np.unique(img))
-  plot(img)
+  plot_opencv(img)
 
   cv.imwrite("../data/test/test_binary.png", img)

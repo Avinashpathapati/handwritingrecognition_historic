@@ -11,14 +11,11 @@ import numpy as np
 from PIL import Image
 
 
-def plot(image):
-  # plt.imshow(Image.fromarray(image))
-  # plt.show()
+def plot_opencv(image):
   winname='PLOT'
   cv.imshow(winname,image)
   cv.waitKey(0)
   cv.destroyWindow(winname)
-
 
 def plot_matplotlib(image):
   plt.imshow(Image.fromarray(image))
@@ -29,6 +26,9 @@ def plot_histogram(image):
   plt.xlabel("Pixel value")
   plt.ylabel("Number of pixels")
   plt.show()
+
+def save_opencv(image, path, name):
+  cv.imwrite(os.path.join(path, name), image)
 
 def get_input_arguments():
   parser = argparse.ArgumentParser()

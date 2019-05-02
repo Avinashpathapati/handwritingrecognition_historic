@@ -1,4 +1,4 @@
-from recognizer.utility import load_single_image,plot,plot_matplotlib
+from recognizer.utility import load_single_image, plot_opencv, plot_matplotlib
 from recognizer.preprocess import binarize,thresholded_binarisation
 import numpy as np
 import cv2 as cv
@@ -43,27 +43,24 @@ class ExtractorByOpening():
 		floodflags |= cv.FLOODFILL_MASK_ONLY
 		floodflags |= (255 << 8)
 
-		num, im, mask, rect = cv.floodFill(im, mask, seed, (1), (0,) * 3, (0,) * 3, floodflags)
-
+		num, im, mask, rect = cv.floodFill(im, mask, seed, 1, 0, 0, floodflags)
+		mask = cv.resize(mask, (w, h))
 		return mask
 
+	def get_center(self, image):
+		mask = self.area_closing(image)
+		mask = self.area_opening(mask)
+		mask = thresholded_binarisation(mask,25) #Hypeparameter is threshold
+		mask = self.get_mask_of_centre(mask)
+		return cv.bitwise_and(image, image, mask = mask)
+
 	def testing_start(self):
-		image_path = '../data/test/'
-		image_name = '0_test.jpg'
+		image_path = '/home/anpenta/Desktop/handwriting-recognizer/data/image-data/'
+		image_name = 'P423-1-Fg002-R-C01-R01-fused.jpg'
 
-
-
-		img = self.load_image(image_path,image_name,load_greyscale=True)
-
-		output_img = self.area_closing(img)
-		output_img = self.area_opening(output_img)
-
-
-		output_img = thresholded_binarisation(output_img,25) #Hypeparameter is threshold
-
-		output_img = self.get_mask_of_centre(output_img)
-
-
-		plot_matplotlib(output_img)
+		image = self.load_image(image_path,image_name,load_greyscale=True)
+		image = self.get_center(image)
+		
+		plot_matplotlib(image)
 
 

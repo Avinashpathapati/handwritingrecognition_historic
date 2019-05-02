@@ -2,7 +2,7 @@
 # Author: Andreas Pentaliotis
 # Module to implement handwriting recognition on the given images.
 
-from recognizer.utility import plot, plot_histogram, load_data, get_input_arguments
+from recognizer.utility import plot_histogram, load_data, get_input_arguments
 from recognizer.preprocess import binarize, smooth, normalize, preprocess
 
 
@@ -13,6 +13,7 @@ data = load_data(arguments["data"])
   #plot_histogram(image)
 
 #"""
+
 # [Temporary] Saving the images to inspect.
 data = preprocess(data)
 import cv2 as cv
