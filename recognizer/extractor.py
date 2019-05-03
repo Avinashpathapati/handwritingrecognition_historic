@@ -10,7 +10,6 @@ class ExtractorByOpening():
 	def __init__(self,kernel_size):
 		self.kernel = np.ones((kernel_size,kernel_size),np.uint8)
 
-
 	def load_image(self,image_path,image_name,load_greyscale=False):
 		return load_single_image(image_path,image_name,load_greyscale=load_greyscale)
 
@@ -59,7 +58,10 @@ class ExtractorByOpening():
 		mask = self.area_opening(mask)
 		mask = thresholded_binarisation(mask, 25) #Hypeparameter is threshold
 		mask = self.get_biggest_component(mask)
-		return cv.bitwise_and(image, image, mask = mask)
+
+		image = cv.bitwise_and(image, image, mask = mask)
+
+		return image, mask
 
 	def testing_start(self):
 		image_path = '/home/anpenta/Desktop/handwriting-recognizer/data/image-data/'

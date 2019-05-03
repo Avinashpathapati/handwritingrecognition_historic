@@ -1,5 +1,4 @@
 # Utility module
-# Author: Andreas Pentaliotis
 # Module to implement utility functions for recognizer.
 
 import matplotlib.pyplot as plt
