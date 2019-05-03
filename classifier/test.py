@@ -12,7 +12,6 @@ data = augment(data)
 #for image, label in zip(data["images"], data["labels"]):
   #plot(image, label)
 
-
 #cnn = build_cnn()
 #print(cnn.summary())
 

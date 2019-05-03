@@ -10,8 +10,8 @@ import pandas as pd
 def scale(image):
   (height, width) = image.shape[:2] 
   scale_type = random.choice([cv.INTER_CUBIC, cv.INTER_AREA])
-  height = int(1.5 * height) if scale_type == cv.INTER_AREA else int(height / 1.5)
-  width = int(1.5 * width) if scale_type == cv.INTER_AREA else int(width / 1.5)
+  height = int(1.2 * height) if scale_type == cv.INTER_AREA else int(height / 1.2)
+  width = int(1.2 * width) if scale_type == cv.INTER_AREA else int(width / 1.2)
   return cv.resize(image, (width, height), interpolation = scale_type) 
 
 def rotate(image):
@@ -28,6 +28,8 @@ def translate(image):
   return cv.warpAffine(image, matrix, (columns, rows), borderValue = 255)
 
 def augment(data):
+  print("augmenting images...")
+  
   scaled_data = pd.DataFrame()
   scaled_images = [scale(x) for x in data["images"]]
   scaled_data["images"] = scaled_images
