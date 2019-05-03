@@ -4,7 +4,6 @@
 import random
 import numpy as np
 import cv2 as cv
-import pandas as pd
 
 
 def scale(image):
@@ -27,26 +26,16 @@ def translate(image):
   matrix = np.float32([[1, 0, horizontal_shift], [0, 1, vertical_shift]]) 
   return cv.warpAffine(image, matrix, (columns, rows), borderValue = 255)
 
-def augment(data):
+def augment(images, labels):
   print("augmenting images...")
+
+  scaled_images = [scale(x) for x in images]
+  rotated_images = [rotate(x) for x in images]
+  translated_images = [translate(x) for x in images]
   
-  scaled_data = pd.DataFrame()
-  scaled_images = [scale(x) for x in data["images"]]
-  scaled_data["images"] = scaled_images
-  scaled_data["labels"] = data["labels"]
+  images.extend(scaled_images)
+  images.extend(rotated_images)
+  images.extend(translated_images)
+  labels = labels * 4
 
-  rotated_data = pd.DataFrame()
-  rotated_images = [rotate(x) for x in data["images"]]
-  rotated_data["images"] = rotated_images
-  rotated_data["labels"] = data["labels"]
-
-  translated_data = pd.DataFrame()
-  translated_images = [translate(x) for x in data["images"]]
-  translated_data["images"] = translated_images
-  translated_data["labels"] = data["labels"]
-
-  data = data.append(scaled_data)
-  data = data.append(rotated_data)
-  data = data.append(translated_data)
-
-  return data
+  return images, labels

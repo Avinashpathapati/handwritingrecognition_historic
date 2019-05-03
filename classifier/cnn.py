@@ -12,7 +12,7 @@ from keras.layers.core import Dense
 from keras import backend as K
 
 
-def build_cnn(width, height, depth, classes):
+def build_cnn(height, width, depth, classes):
   # Determine the input shape.
   if K.image_data_format() == "channels_first":
     input_shape = (depth, height, width)

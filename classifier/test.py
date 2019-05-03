@@ -6,10 +6,10 @@ from augmentation import rotate, translate, scale, augment
 from cnn import build_cnn
 
 
-data = load_data("/home/anpenta/Desktop/character-classifier/data/monkbrill-jpg/monkbrill2")
-data = augment(data)
+images, labels = load_data("/home/anpenta/Desktop/character-classifier/data/monkbrill-jpg/monkbrill2")
+images, labels = augment(images, labels)
 
-#for image, label in zip(data["images"], data["labels"]):
+#for image, label in zip(images, labels):
   #plot(image, label)
 
 #cnn = build_cnn()

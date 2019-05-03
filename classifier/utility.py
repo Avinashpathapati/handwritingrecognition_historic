@@ -2,7 +2,6 @@
 # Utility function for character classifier.
 
 import cv2 as cv
-import pandas as pd
 import os
 
 
@@ -28,11 +27,13 @@ def pad(image, width, height):
 
   return cv.copyMakeBorder(image, top, bottom, left, right, cv.BORDER_CONSTANT, value=255)
 
+def binarize(image):
+  return cv.threshold(image, 0, 255, cv.THRESH_BINARY + cv.THRESH_OTSU)[1]
+
 def load_data(path):
   print("loading images...")
   
-  # Load the images and labels into a dataframe.
-  data = pd.DataFrame()
+  # Load the images and labels.
   images = []
   labels = []
   for directory in os.listdir(path + "/"):
@@ -41,7 +42,4 @@ def load_data(path):
         images.append(image)
         labels.append(str(directory))
 
-  data["images"] = images
-  data["labels"] = labels
-  
-  return data
+  return images, labels
