@@ -1,6 +1,9 @@
 # Train module
 # Module to implement training of a model on the character data.
 
+import matplotlib
+matplotlib.use("Agg")
+
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -34,7 +37,7 @@ plt.ylabel("Accuracy")
 plt.xlabel("Epoch")
 plt.legend(["Training set", "Validation set"], loc="upper left")
 plt.savefig("model-fit-accuracy")
-plt.show()
+plt.close()
 
 plt.plot(history.history["loss"])
 plt.plot(history.history["val_loss"])
@@ -43,4 +46,4 @@ plt.ylabel("Loss")
 plt.xlabel("Epoch")
 plt.legend(["Training set", "Validation set"], loc="upper left")
 plt.savefig("model-fit-loss")
-plt.show()
+plt.close()
