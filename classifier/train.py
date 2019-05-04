@@ -1,6 +1,7 @@
 # Train module
 # Module to implement training of a model on the character data.
 
+import numpy as np
 import matplotlib.pyplot as plt
 
 from utility import load_data
@@ -23,7 +24,7 @@ model = build_cnn(x_train.shape[1], x_train.shape[2], 1, classes)
 model.compile(loss="categorical_crossentropy", optimizer="adam", metrics=["accuracy"])
 print(model.summary())
 
-history = model.fit(x_train, y_train, validation_split=0.25, epochs=1, batch_size=16)
+history = model.fit(x_train, y_train, validation_split=0.25, epochs=500, batch_size=32)
 model.save("model.h5")
 
 plt.plot(history.history["acc"])
