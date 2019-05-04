@@ -1,5 +1,5 @@
 # Utility module
-# Utility function for character classifier.
+# Utility functions for character classifier.
 
 import cv2 as cv
 import os
@@ -12,23 +12,6 @@ def plot(image, name):
 
 def read_image(path):
   return cv.imread(path, cv.IMREAD_UNCHANGED)
-
-def pad(image, width, height):
-  top = (height - image.shape[0]) // 2
-  bottom = (height - image.shape[0]) // 2
-  left = (width - image.shape[1]) // 2
-  right = (width - image.shape[1]) // 2
-
-  # Correct any rounding errors in divisions.
-  if image.shape[1] + left + right != width:
-    left += 1
-  if image.shape[0] + top + bottom != height:
-    top += 1
-
-  return cv.copyMakeBorder(image, top, bottom, left, right, cv.BORDER_CONSTANT, value=255)
-
-def binarize(image):
-  return cv.threshold(image, 0, 255, cv.THRESH_BINARY + cv.THRESH_OTSU)[1]
 
 def load_data(path):
   print("loading images...")
