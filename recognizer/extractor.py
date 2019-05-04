@@ -7,18 +7,19 @@ import cv2 as cv
 For middle part extraction
 '''
 class ExtractorByOpening():
-	def __init__(self,kernel_size):
-		self.kernel = np.ones((kernel_size,kernel_size),np.uint8)
-
 	def load_image(self,image_path,image_name,load_greyscale=False):
 		return load_single_image(image_path,image_name,load_greyscale=load_greyscale)
 
 	def area_closing(self,img):
-		closing = cv.morphologyEx(img, cv.MORPH_CLOSE, self.kernel)
+		kernel_size = 20
+		kernel = np.ones((kernel_size,kernel_size),np.uint8)
+		closing = cv.morphologyEx(img, cv.MORPH_CLOSE, kernel)
 		return closing
 
 	def area_opening(self,img):
-		opening = cv.morphologyEx(img, cv.MORPH_OPEN, self.kernel)
+		kernel_size = 20
+		kernel = np.ones((kernel_size,kernel_size),np.uint8)
+		opening = cv.morphologyEx(img, cv.MORPH_OPEN, kernel)
 		return opening
 
 	def filter_cc(self,img):
@@ -37,6 +38,10 @@ class ExtractorByOpening():
 		return nonzero[nearest_index]
 
 	def get_biggest_component(self, image):
+		kernel_size = 45
+		kernel = np.ones((kernel_size,kernel_size),np.uint8)
+		image = cv.erode(image, kernel)
+		
 		nb_components, output, stats, centroids = cv.connectedComponentsWithStats(image, connectivity=4)
 		sizes = stats[:, -1]
 

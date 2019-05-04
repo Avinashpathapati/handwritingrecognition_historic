@@ -32,18 +32,6 @@ def whiten_background(image, mask):
   image[mask != 255] = 255
   return image
 
-def remove_border(image):
-  kernel_size = 5
-  kernel = np.ones((kernel_size,kernel_size),np.uint8)
-  mask = cv.erode(image, kernel)
-  mask = cv.erode(image, kernel)
-  mask = cv.erode(image, kernel)
-  mask = cv.bitwise_not(mask)
-  #plot_matplotlib(mask)
-  image = cv.bitwise_and(image, image, mask = mask)
-  image = cv.bitwise_not(image)
-  return image
-
 def enhance(image):
   kernel_size = 3
   kernel = np.ones((kernel_size,kernel_size),np.uint8)
@@ -60,7 +48,6 @@ def preprocess(data):
   images = [whiten_background(x, y) for x, y in zip(images, masks)]
   
   #images = [enhance(x) for x in images]
-  #images = [remove_border(x) for x in images]
   
   return images
 

@@ -4,12 +4,9 @@ from recognizer.utility import load_data, save_opencv, plot_opencv, plot_matplot
 
 
 if __name__ == '__main__':
-	#extractor = ExtractorByOpening(20)
-	#extractor.testing_start()
-	
 	#"""
 	# [Temporary] Saving the images to inspect.
-	extractor = ExtractorByOpening(20)
+	extractor = ExtractorByOpening()
 	data = load_data('/home/anpenta/Desktop/handwriting-recognizer/data/image-data')
 	data = [extractor.extract_text(x) for x in data]
 	data = preprocess(data)

@@ -1,5 +1,5 @@
-# Recognizer module
-# Module to implement handwriting recognition on the given images.
+# Test module
+# Module to test the other modules.
 
 from recognizer.utility import plot_histogram, load_data, get_input_arguments
 from recognizer.preprocess import binarize, smooth, normalize, preprocess
