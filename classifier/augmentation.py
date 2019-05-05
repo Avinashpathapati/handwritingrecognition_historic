@@ -1,4 +1,5 @@
 # Augmentation module
+# Author: Andreas Pentaliotis
 # Module to implement data augmentation.
 
 import random

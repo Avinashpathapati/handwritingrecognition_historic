@@ -1,5 +1,6 @@
 # Preprocessing module
-# Preprocessing functions for character classifier.
+# Author: Andreas Pentaliotis
+# Implementation of preprocessing functions.
 
 import cv2 as cv
 import numpy as np
