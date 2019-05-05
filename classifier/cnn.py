@@ -16,6 +16,7 @@ K.set_image_dim_ordering("tf")
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+import os
 
 
 class CNN():
@@ -71,22 +72,29 @@ class CNN():
 
   def train(self, x_train, y_train, epochs, batch_size):
     history = self.model.fit(x_train, y_train, validation_split=0.25, epochs=epochs, batch_size=batch_size)
-    self.model.save("cnn.h5")
+
+    if not os.path.isdir("./output"):
+      os.mkdir("./output")
 
     plt.plot(history.history["acc"])
     plt.plot(history.history["val_acc"])
-    plt.title("Model accuracy")
+    plt.title("CNN accuracy")
     plt.ylabel("Accuracy")
     plt.xlabel("Epoch")
     plt.legend(["Training set", "Validation set"], loc="upper left")
-    plt.savefig("model-fit-accuracy")
+    plt.savefig("./output/cnn-fit-accuracy")
     plt.close()
 
     plt.plot(history.history["loss"])
     plt.plot(history.history["val_loss"])
-    plt.title("Model loss")
+    plt.title("CNN loss")
     plt.ylabel("Loss")
     plt.xlabel("Epoch")
     plt.legend(["Training set", "Validation set"], loc="upper left")
-    plt.savefig("model-fit-loss")
+    plt.savefig("./output/cnn-fit-loss")
     plt.close()
+
+  def save(self):
+    if not os.path.isdir("./output"):
+      os.mkdir("./output")
+    self.model.save("./output/cnn.h5")
