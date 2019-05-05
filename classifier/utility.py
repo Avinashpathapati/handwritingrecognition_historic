@@ -27,3 +27,17 @@ def load_data(path):
       labels.append(str(directory))
 
   return images, labels
+
+def load_images(path):
+  print("loading images...")
+
+  # Load the images and their names.
+  images = []
+  names = []
+  for directory in os.listdir(path + "/"):
+    for filename in os.listdir(path + "/" + str(directory) + "/"):
+      image = read_image(path + "/" + str(directory) + "/" + str(filename))
+      images.append(image)
+      names.append(str(filename))
+
+  return images, names

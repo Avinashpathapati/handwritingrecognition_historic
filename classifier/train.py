@@ -4,7 +4,7 @@
 
 import numpy as np
 from utility import load_data
-from preprocessing import preprocess
+from preprocessing import preprocess_training
 from augmentation import augment
 from cnn import CNN
 
@@ -13,7 +13,7 @@ images, labels = load_data("/home/anpenta/Desktop/character-classifier/data/monk
 classes = len(np.unique(labels))
 
 images, labels = augment(images, labels)
-x_train, x_test, y_train, y_test = preprocess(images, labels)
+x_train, x_test, y_train, y_test = preprocess_training(images, labels)
 
 # Delete the original lists to free memory.
 del images[:]

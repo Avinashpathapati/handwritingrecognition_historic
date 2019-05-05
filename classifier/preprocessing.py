@@ -32,7 +32,7 @@ def __randomize(images, labels):
   images[:], labels[:] = zip(*data)
   return images, labels
 
-def preprocess(images, labels):
+def preprocess_training(images, labels):
   print("preprocessing data...")
 
   images, labels = __randomize(images, labels)
@@ -57,3 +57,16 @@ def preprocess(images, labels):
   x_test = np.reshape(x_test, (x_test.shape[0], max_height, max_width, 1))
   
   return x_train, x_test, y_train, y_test
+
+def preprocess_testing(images):
+  print("preprocessing images...")
+
+  # Pad all the images with white pixels to maximum height and maximum width.
+  max_width = np.amax(np.unique([x.shape[1] for x in images]))
+  max_height = np.amax(np.unique([x.shape[0] for x in images]))
+  images = [__pad(x, max_width, max_height) for x in images]
+
+  images = [__binarize(x) for x in images]
+  images = [x / 255 for x in images]
+
+  return images
