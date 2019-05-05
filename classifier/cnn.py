@@ -26,32 +26,6 @@ class CNN():
     self.classes = classes
     self.__build()
 
-  def summary(self):
-    print()
-    self.model.summary()
-
-  def train(self, x_train, y_train, epochs, batch_size):
-    history = self.model.fit(x_train, y_train, validation_split=0.25, epochs=epochs, batch_size=batch_size)
-    self.model.save("cnn.h5")
-
-    plt.plot(history.history["acc"])
-    plt.plot(history.history["val_acc"])
-    plt.title("Model accuracy")
-    plt.ylabel("Accuracy")
-    plt.xlabel("Epoch")
-    plt.legend(["Training set", "Validation set"], loc="upper left")
-    plt.savefig("model-fit-accuracy")
-    plt.close()
-
-    plt.plot(history.history["loss"])
-    plt.plot(history.history["val_loss"])
-    plt.title("Model loss")
-    plt.ylabel("Loss")
-    plt.xlabel("Epoch")
-    plt.legend(["Training set", "Validation set"], loc="upper left")
-    plt.savefig("model-fit-loss")
-    plt.close()
-  
   def __build(self):
     input_shape = (self.height, self.width, self.depth)
 
@@ -87,3 +61,32 @@ class CNN():
     self.model.add(Dense(self.classes, activation="softmax"))
 
     self.model.compile(loss="categorical_crossentropy", optimizer="adam", metrics=["accuracy"])
+
+  def summary(self):
+    print()
+    print()
+    print("CNN")
+    print("--------------------")
+    self.model.summary()
+
+  def train(self, x_train, y_train, epochs, batch_size):
+    history = self.model.fit(x_train, y_train, validation_split=0.25, epochs=epochs, batch_size=batch_size)
+    self.model.save("cnn.h5")
+
+    plt.plot(history.history["acc"])
+    plt.plot(history.history["val_acc"])
+    plt.title("Model accuracy")
+    plt.ylabel("Accuracy")
+    plt.xlabel("Epoch")
+    plt.legend(["Training set", "Validation set"], loc="upper left")
+    plt.savefig("model-fit-accuracy")
+    plt.close()
+
+    plt.plot(history.history["loss"])
+    plt.plot(history.history["val_loss"])
+    plt.title("Model loss")
+    plt.ylabel("Loss")
+    plt.xlabel("Epoch")
+    plt.legend(["Training set", "Validation set"], loc="upper left")
+    plt.savefig("model-fit-loss")
+    plt.close()
