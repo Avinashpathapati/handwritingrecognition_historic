@@ -19,7 +19,6 @@ x_train, x_test, y_train, y_test = preprocess(images, labels)
 del images[:]
 del labels[:]
 
-print(x_train.shape)
 cnn = CNN(x_train.shape[1], x_train.shape[2], x_train.shape[3], classes)
 cnn.summary()
 

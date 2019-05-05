@@ -27,6 +27,7 @@ class CNN():
     self.__build()
 
   def summary(self):
+    print()
     self.model.summary()
 
   def train(self, x_train, y_train, epochs, batch_size):

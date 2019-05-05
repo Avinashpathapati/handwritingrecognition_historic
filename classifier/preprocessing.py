@@ -9,7 +9,7 @@ from sklearn.preprocessing import LabelBinarizer
 from sklearn.model_selection import train_test_split
 
 
-def pad(image, width, height):
+def __pad(image, width, height):
   top = (height - image.shape[0]) // 2
   bottom = (height - image.shape[0]) // 2
   left = (width - image.shape[1]) // 2
@@ -23,10 +23,10 @@ def pad(image, width, height):
 
   return cv.copyMakeBorder(image, top, bottom, left, right, cv.BORDER_CONSTANT, value=255)
 
-def binarize(image):
+def __binarize(image):
   return cv.threshold(image, 0, 255, cv.THRESH_BINARY + cv.THRESH_OTSU)[1]
 
-def randomize(images, labels):
+def __randomize(images, labels):
   data = list(zip(images, labels))
   shuffle(data)
   images[:], labels[:] = zip(*data)
@@ -35,7 +35,7 @@ def randomize(images, labels):
 def preprocess(images, labels):
   print("preprocessing data...")
 
-  images, labels = randomize(images, labels)
+  images, labels = __randomize(images, labels)
   
   # One hot encode the labels.
   binarizer = LabelBinarizer()
@@ -44,9 +44,9 @@ def preprocess(images, labels):
   # Pad all the images with white pixels to maximum height and maximum width.
   max_width = np.amax(np.unique([x.shape[1] for x in images]))
   max_height = np.amax(np.unique([x.shape[0] for x in images]))
-  images = [pad(x, max_width, max_height) for x in images]
+  images = [__pad(x, max_width, max_height) for x in images]
 
-  images = [binarize(x) for x in images]
+  images = [__binarize(x) for x in images]
   images = [x / 255 for x in images]
 
   # Split the data into training and testing and reshape the image arrays.
