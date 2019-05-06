@@ -64,8 +64,10 @@ class ExtractorByOpening():
 		return image, mask
 
 	def testing_start(self):
-		image_path = '/home/anpenta/Desktop/handwriting-recognizer/data/image-data/'
-		image_name = 'P166-Fg002-R-C01-R01-fused.jpg'
+		image_path = '../data/test/'
+		#image_name = 'another_sample.jpg'
+		image_name = '1_test.jpg'
+		#image_name = 'small.png'
 
 		image = self.load_image(image_path, image_name, load_greyscale=True)
 		#image = self.area_closing(image)
@@ -75,7 +77,7 @@ class ExtractorByOpening():
 		#image = self.get_mask_of_centre(image)
 		
 		image = self.extract_text(image)
-		
-		plot_matplotlib(image)
+		return image
+
 
 

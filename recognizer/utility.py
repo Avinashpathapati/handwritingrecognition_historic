@@ -26,6 +26,7 @@ def plot_histogram(image):
   plt.ylabel("Number of pixels")
   plt.show()
 
+
 def save_opencv(image, path, name):
   cv.imwrite(os.path.join(path, name), image)
 
@@ -58,8 +59,16 @@ def load_single_image(image_path,image_name,load_greyscale=False):
   if load_greyscale:
     image = cv.imread(image_path + str(image_name),cv.IMREAD_GRAYSCALE)
   else:
-    print('in here')
+    #print('in here')
     image = cv.imread(image_path + str(image_name),cv.IMREAD_UNCHANGED)
 
   #image = cv.imread(image_path + str(image_name), cv.IMREAD_GRAYSCALE)
   return image
+
+
+
+def invert_image(im):
+    im = abs(255 - im)
+    im = im / 255
+
+    return im
