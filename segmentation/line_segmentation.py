@@ -19,6 +19,45 @@ class LineSementation():
 		hough.run(img)
 		return None
 
+	def technique_lpp(self,img):
+		stripe = 150
+		im = invert_image(img)
+		height, width = im.shape
+		llp_image = np.zeros((height, width), np.uint8)
+		for column in range(width-1,0,-1):
+			llp = cv.reduce(im[:,column:column+stripe], 1, cv.REDUCE_SUM, dtype=cv.CV_32F)
+			llp_image[:,column] = llp[:,0]
+
+		kernel = np.ones((40,10), np.float32)/25
+		llp_image = cv.filter2D(llp_image, -1, kernel)
+		cv.imwrite('result_llp_blur.png', llp_image)
+
+		# @TODO:
+		# find the optimal values for the kernel
+		# find optimal value for the stripe size
+		# use zero crossings or something similar to separate the white areas as lines
+
+
+
+
+		# horizontal_hist = cv.reduce(im, 0, cv.REDUCE_SUM, dtype=cv.CV_32F)[0]
+		# print(horizontal_hist)
+		# # Create output image same height as text, 500 px wide
+		# horizontal_hist = np.sum(im,1)
+		# print(horizontal_hist)
+		# m = np.max(horizontal_hist)
+		# w = 500
+		# result = np.zeros((horizontal_hist.shape[0], 500))
+		#
+		# # Draw a line for each row
+		# for row in range(im.shape[0]):
+		# 	cv.line(result, (0, row), (int(horizontal_hist[row] * w / m), row), (255, 255, 255), 1)
+		#
+		# # Save result
+		# cv.imwrite('result.png', result)
+		# horizontal_hist = horizontal_hist.ravel()
+		return llp_image
+
 	def technique_a_star(self,img):
 		valleys=get_valleys(img)
 		print(valleys)
@@ -35,21 +74,21 @@ class LineSementation():
 			path_finder = Astar(grid=img)
 			start_node = [int(valley),0]
 			goal_node=[int(valley),img_W-1]
-			start_node = (0,int(valley))
-			goal_node = (img_W - 1,int(valley))
+			# start_node = (0,int(valley))
+			# goal_node = (img_W - 1,int(valley))
 
-			cv.line(img,start_node,goal_node,0)
+			# cv.line(img,start_node,goal_node,0)
 			#print(start_node,goal_node)
-		# 	path_for_valley,map = path_finder.pathfind(start_node,goal_node)
-		#
-		# 	paths.append(path_for_valley)
-		# 	maps.append(map)
-		#
-		# for map in maps:
-		# 	self.draw_map(img,map)
+			path_for_valley,map = path_finder.pathfind(start_node,goal_node)
 
-		# for path in paths:
-		# 	self.draw_line(img,path)
+			paths.append(path_for_valley)
+			maps.append(map)
+
+		for map in maps:
+			self.draw_map(img,map)
+
+		for path in paths:
+			self.draw_line(img,path)
 
 
 		return img
@@ -67,7 +106,8 @@ class LineSementation():
 
 	def test_segmentation(self,img):
 		#img = self.technique_hough(img)
-		img = self.technique_a_star(img)
+		#img = self.technique_a_star(img)
+		img  = self.technique_lpp(img)
 		plot_opencv(img)
 		return
 

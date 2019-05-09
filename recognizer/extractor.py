@@ -56,7 +56,7 @@ class ExtractorByOpening():
 	def extract_text(self, image):
 		mask = self.area_closing(image)
 		mask = self.area_opening(mask)
-		mask = thresholded_binarisation(mask, 25) #Hypeparameter is threshold
+		mask = thresholded_binarisation(mask, 140) #Hypeparameter is threshold
 		mask = self.get_biggest_component(mask)
 
 		image = cv.bitwise_and(image, image, mask = mask)
@@ -66,7 +66,7 @@ class ExtractorByOpening():
 	def testing_start(self):
 		image_path = '../data/test/'
 		#image_name = 'another_sample.jpg'
-		image_name = '1_test.jpg'
+		image_name = '6_test.jpg'
 		#image_name = 'small.png'
 
 		image = self.load_image(image_path, image_name, load_greyscale=True)

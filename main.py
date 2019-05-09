@@ -2,6 +2,7 @@ from recognizer.extractor import ExtractorByOpening
 from recognizer.preprocess import preprocess_single, preprocess
 from recognizer.utility import *
 from segmentation.line_segmentation import LineSementation
+import cv2 as cv
 
 
 if __name__ == '__main__':
@@ -13,17 +14,18 @@ if __name__ == '__main__':
 	#img_and_mask=extractor.extract_text(img_and_mask[0])
 
 	img=preprocess(data=[img_and_mask])
+	cv.imwrite('preprocessed.png',img[0])
 	img_resized = image_resize(img[0], height=800)
 	#mg=preprocess(data=[img_and_mask])
 
 
 
 	#plot_matplotlib(img[0])
-	plot_opencv(img_resized)
+	# plot_opencv(img_resized)
 	#plot_opencv(img_and_mask[1])
 
-	# line_segmentation = LineSementation()
-	# line_segmentation.test_segmentation(img[0])
+	line_segmentation = LineSementation()
+	line_segmentation.test_segmentation(img[0])
 
 	#preprocess_single()
 
