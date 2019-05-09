@@ -28,14 +28,17 @@ def get_input_arguments():
 
   return arguments
 
-def load_data(path):
+def load_data(path, search_str):
   print("loading images...")
   data = []
 
   # Load the grayscale images into the data list.
   path = path + "/"
+  print(path)
   for file in os.listdir(path):
-    if "fused" in str(file):
+    print(file)
+    if search_str in str(file):
+      print(search_str)
       image = cv.imread(path + str(file), cv.IMREAD_GRAYSCALE)
       data.append(image)
 
