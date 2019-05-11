@@ -2,6 +2,7 @@
 # Author: Andreas Pentaliotis
 # Convolutional neural network implementation.
 
+from keras.preprocessing.image import ImageDataGenerator
 from keras.models import Sequential
 from keras.layers.convolutional import Conv2D
 from keras.layers.convolutional import MaxPooling2D
@@ -10,7 +11,6 @@ from keras.constraints import maxnorm
 from keras.layers.core import Flatten
 from keras.layers.core import Dropout
 from keras.layers.core import Dense
-from keras.layers import BatchNormalization
 from keras import backend as K
 K.set_image_dim_ordering("tf")
 import matplotlib
@@ -33,31 +33,18 @@ class CNN():
     # Build the model and compile it.
     self.model = Sequential()
   
-    self.model.add(Conv2D(32, (11, 11), input_shape=input_shape, padding="same"))
-    self.model.add(BatchNormalization())
+    self.model.add(Conv2D(128, (5, 5), input_shape=input_shape, padding="same"))
     self.model.add(Activation("relu"))
     self.model.add(MaxPooling2D(pool_size=(2, 2)))
   
-    self.model.add(Conv2D(64, (7, 7), padding="same"))
-    self.model.add(BatchNormalization())
-    self.model.add(Activation("relu"))
-    self.model.add(MaxPooling2D(pool_size=(2, 2)))
-
-    self.model.add(Conv2D(128, (5, 5), padding="same"))
-    self.model.add(BatchNormalization())
-    self.model.add(Activation("relu"))
-    self.model.add(MaxPooling2D(pool_size=(2, 2)))
-  
-    self.model.add(Conv2D(256, (3, 3), padding="same"))
-    self.model.add(BatchNormalization())
+    self.model.add(Conv2D(64, (5, 5), padding="same"))
     self.model.add(Activation("relu"))
     self.model.add(MaxPooling2D(pool_size=(2, 2)))
 
     self.model.add(Flatten())
-    self.model.add(Dense(512))
-    self.model.add(BatchNormalization())
+    self.model.add(Dense(1024))
     self.model.add(Activation("relu"))
-    self.model.add(Dropout(0.5))
+    self.model.add(Dropout(0.2))
 
     self.model.add(Dense(self.classes, activation="softmax"))
 
@@ -70,8 +57,19 @@ class CNN():
     print("--------------------")
     self.model.summary()
 
-  def train(self, x_train, y_train, epochs, batch_size):
-    fitting = self.model.fit(x_train, y_train, validation_split=0.25, epochs=epochs, batch_size=batch_size)
+  def train(self, x_train, y_train, epochs, batch_size, augment_data=None):
+    if augment_data:
+      generator = ImageDataGenerator(zoom_range=0.1, horizontal_flip=True, vertical_flip=True, rotation_range=5,
+                               validation_split=0.25)
+      training_generator = generator.flow(x_train, y_train, batch_size=batch_size, subset="training")
+      validation_generator = training_generator = generator.flow(x_train, y_train, batch_size=batch_size, subset="validation")
+      
+      fitting = self.model.fit_generator(training_generator, validation_data=validation_generator,
+                                         steps_per_epoch=int(x_train.shape[0] / batch_size),
+                                         validation_steps = int(x_train.shape[0] * 0.25 / batch_size),
+                                         epochs=epochs)
+    else:
+      fitting = self.model.fit(x_train, y_train, validation_split=0.25, epochs=epochs, batch_size=batch_size)
 
     if not os.path.isdir("./output"):
       os.mkdir("./output")
