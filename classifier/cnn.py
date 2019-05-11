@@ -59,7 +59,7 @@ class CNN():
 
   def train(self, x_train, y_train, epochs, batch_size, augment_data=None):
     if augment_data:
-      generator = ImageDataGenerator(zoom_range=0.1, horizontal_flip=True, vertical_flip=True, rotation_range=5,
+      generator = ImageDataGenerator(zoom_range=0.1, width_shift_range=0.1, height_shift_range=0.1, rotation_range=5,
                                validation_split=0.25)
       training_generator = generator.flow(x_train, y_train, batch_size=batch_size, subset="training")
       validation_generator = training_generator = generator.flow(x_train, y_train, batch_size=batch_size, subset="validation")
