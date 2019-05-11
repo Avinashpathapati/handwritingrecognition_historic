@@ -4,6 +4,7 @@
 
 import cv2 as cv
 import os
+import random
 
 
 def plot(image, name):
@@ -15,7 +16,7 @@ def read_image(path):
   return cv.imread(path, cv.IMREAD_UNCHANGED)
 
 def load_data(path):
-  print("loading images...")
+  print("loading data...")
   
   # Load the images and labels.
   images = []
@@ -31,7 +32,7 @@ def load_data(path):
 def load_images(path):
   print("loading images...")
 
-  # Load the images and their names.
+  # Load the images and their filenames.
   images = []
   names = []
   for directory in os.listdir(path + "/"):
@@ -41,3 +42,12 @@ def load_images(path):
       names.append(str(filename))
 
   return images, names
+
+def randomize(images, labels):
+  print("shuffling data...")
+  
+  data = list(zip(images, labels))
+  random.Random(1).shuffle(data)
+  images[:], labels[:] = zip(*data)
+  
+  return images, labels
