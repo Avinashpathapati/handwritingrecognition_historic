@@ -23,15 +23,21 @@ def preprocess_training(images, labels):
   binarizer = LabelBinarizer()
   labels = binarizer.fit_transform(labels)
 
+  # Preprocess the images.
   images = __resize(images, 64, 64)
   images = __binarize(images)
+  images = np.array(images)
+  images = np.reshape(images, (images.shape[0], images.shape[1], images.shape[2], 1))
 
   return images, labels
 
 def preprocess_testing(images):
   print("preprocessing images...")
 
+  # Preprocess the images.
   images = __resize(images, 64, 64)
   images = __binarize(images)
+  images = np.array(images)
+  images = np.reshape(images, (images.shape[0], images.shape[1], images.shape[2], 1))
 
   return images

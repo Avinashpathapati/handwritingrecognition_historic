@@ -4,9 +4,8 @@
 
 import numpy as np
 
-from utility import load_data, randomize
+from utility import load_data, randomize, split
 from preprocessing import preprocess_training
-from splitting import split
 from cnn import CNN
 
 
@@ -24,6 +23,6 @@ del labels
 cnn = CNN(x_train.shape[1], x_train.shape[2], x_train.shape[3], classes)
 cnn.summary()
 
-cnn.train(x_train, y_train, epochs=20, batch_size=32, augment_data=False)
+cnn.train(x_train, y_train, epochs=30, batch_size=32, augment_data=True)
 cnn.test(x_test, y_test)
 cnn.save()

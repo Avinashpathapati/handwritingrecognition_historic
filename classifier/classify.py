@@ -3,48 +3,25 @@
 # Module to implement character classification.
 
 from keras.models import load_model
+from keras.preprocessing.image import ImageDataGenerator
 import numpy as np
-import argparse
 import os
-import pandas as pd
 
-from utility import load_images
+from utility import load_images, parse_input_arguments, make_predictions, analyze, save
 from preprocessing import preprocess_testing
 
+arguments = parse_input_arguments()
 
-# Parse the input arguments.
-parser = argparse.ArgumentParser()
-parser.add_argument("-i", "--images", required=True, help="path to input character images")
-arguments = vars(parser.parse_args())
-
-if not os.path.isdir(arguments["images"]):
-  raise Exception("path to input character images not found")
-elif not os.path.isfile(arguments["images"] + "/*"):
-  raise Exception("no files found in path to input character images")
-
-images, names = load_images(arguments["images"])
+# Load and preprocess the images
+images, filenames = load_images(arguments["images"])
 images = preprocess_testing(images)
 
-# Load the model and make the predictions.
-print("making predictions...")
-cnn = load_model("cnn.h5")
-predictions = cnn.predict(images)
+# Load the model and make the predictions. Use a generator with the same settings as in
+# training to make the predictions better.
+cnn = load_model("/home/anpenta/Desktop/character-classifier/cnn/cnn.h5")
+generator = ImageDataGenerator(zoom_range=0.1, width_shift_range=0.1, height_shift_range=0.1, rotation_range=5)
+predictions = make_predictions(cnn, images, generator=None)
 
-# Determine the labels and probabilities and store them into a dataframe with
-# the image names.
-data = pd.DataFrame()
-labels = ["Alef", "Ayin", "Bet", "Dalet", "Gimel", "He", "Het", "Kaf", "Kaf-final"
-          "Lamed", "Mem", "Mem-medial", "Nun-final", "Nun-medial", "Pe", "Pe-final"
-          "Qof", "Resh", "Samekh", "Shin", "Taw", "Tet", "Tsadi-final", "Tsadi-medial"
-          "Waw", "Yod", "Zayin"]
-indices = np.argmax(predictions, axis=1)
-probabilities = np.max(predictions, axis=1)
-data["names"] = names
-data["labels"] = [labels[x] for x in indices]
-data["probabilities"] = probabilities
-
-# Save the data.
-print("saving predictions to ./output...")
-if not os.path.isdir("./output"):
-  os.mkdir("./output")
-data.to_csv("./output/predictions.csv")
+analyzed_predictions = analyze(predictions, filenames)
+print(analyzed_predictions["labels"].value_counts()) # For inspection - to be deleted.
+save(analyzed_predictions)
