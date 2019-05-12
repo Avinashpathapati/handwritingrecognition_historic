@@ -1,6 +1,6 @@
-# Train CNN module
+# Train module
 # Author: Andreas Pentaliotis
-# Module to implement training of cnn on the character data.
+# Module to implement training of a model on the character data.
 
 import numpy as np
 
