@@ -83,7 +83,7 @@ def make_predictions(model, images, generator=None):
     # Make the predictions by performing test time data augmentation using the given generator. For
     # this to make sense the model should have been trained with the same generator.
     predictions = []
-    for _ in range(30):
+    for _ in range(20):
       current_predictions = model.predict_generator(generator.flow(images, batch_size=1, shuffle=False), steps=images.shape[0])
       predictions.append(current_predictions)
     predictions = np.mean(predictions, axis=0)

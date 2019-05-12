@@ -20,7 +20,7 @@ images = preprocess_testing(images)
 # training to make the predictions better.
 cnn = load_model("/home/anpenta/Desktop/character-classifier/cnn/cnn.h5")
 generator = ImageDataGenerator(zoom_range=0.1, width_shift_range=0.1, height_shift_range=0.1, rotation_range=5)
-predictions = make_predictions(cnn, images, generator=None)
+predictions = make_predictions(cnn, images, generator=generator)
 
 analyzed_predictions = analyze(predictions, filenames)
 print(analyzed_predictions["labels"].value_counts()) # For inspection - to be deleted.
