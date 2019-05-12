@@ -2,7 +2,6 @@
 # Author: Andreas Pentaliotis
 # Convolutional neural network implementation.
 
-from keras.preprocessing.image import ImageDataGenerator
 from keras.models import Sequential
 from keras.layers.convolutional import Conv2D
 from keras.layers.convolutional import MaxPooling2D
@@ -17,6 +16,7 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import os
+import numpy as np
 
 
 class CNN():
@@ -57,10 +57,10 @@ class CNN():
     print("--------------------")
     self.model.summary()
 
-  def train(self, x_train, y_train, epochs, batch_size, augment_data=None):
-    if augment_data:
-      generator = ImageDataGenerator(zoom_range=0.1, width_shift_range=0.1, height_shift_range=0.1, rotation_range=5,
-                               validation_split=0.25)
+  def train(self, x_train, y_train, epochs, batch_size, generator=None):
+    if generator is not None:
+      # Train using the given generator for data augmentation.
+      generator._validation_split = 0.25
       training_generator = generator.flow(x_train, y_train, batch_size=batch_size, subset="training")
       validation_generator = training_generator = generator.flow(x_train, y_train, batch_size=batch_size, subset="validation")
       
@@ -92,8 +92,18 @@ class CNN():
     plt.savefig("./output/cnn-fitting-loss")
     plt.close()
 
-  def test(self, x_test, y_test):
-    evaluation = self.model.evaluate(x_test, y_test)
+  def test(self, x_test, y_test, generator=None):
+    if generator is not None:
+      # Make the evaluation by performing test time data augmentation using the given generator. For
+      # this to make sense the model should have been trained with the same generator.
+      evaluation = []
+      for _ in range(20):
+        current_evaluation = self.model.evaluate_generator(generator.flow(x_test, y_test, batch_size=1, shuffle=False),
+                                                           steps=x_test.shape[0], verbose=1)
+        evaluation.append(current_evaluation)
+      evaluation = np.mean(evaluation, axis=0)
+    else:
+      evaluation = self.model.evaluate(x_test, y_test)
 
     if not os.path.isdir("./output"):
       os.mkdir("./output")

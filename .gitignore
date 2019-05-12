@@ -2,3 +2,7 @@ __pycache__/*
 *.pyc
 *.swp
 .idea/
+character-data*
+cnn.h5
+cnn
+cnn-data*

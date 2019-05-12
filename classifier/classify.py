@@ -18,7 +18,7 @@ images = preprocess_testing(images)
 
 # Load the model and make the predictions. Use a generator with the same settings as in
 # training to make the predictions better.
-cnn = load_model("/home/anpenta/Desktop/character-classifier/cnn/cnn.h5")
+cnn = load_model("/home/anpenta/Desktop/character-classifier/handwritingrecognition/cnn-data-augmentation/cnn.h5")
 generator = ImageDataGenerator(zoom_range=0.1, width_shift_range=0.1, height_shift_range=0.1, rotation_range=5)
 predictions = make_predictions(cnn, images, generator=generator)
 
