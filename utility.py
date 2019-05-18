@@ -47,19 +47,20 @@ def load_predictions():
   predictions = pd.read_csv("analyzed-predictions.csv")
   return predictions
 
-def transcribe(sentence, font, char_map):
+def transcribe(text, font, char_map):
   document = Document()
   
-  paragraph = document.add_paragraph()
-  paragraph.alignment = WD_ALIGN_PARAGRAPH.RIGHT
-  run = paragraph.add_run()
-  for word in sentence:
-    for i in range(len(word)):
-      img = create_image(word[len(word) - (i + 1)], (40,40), font, char_map)
-      img.save("char.png")
-      run.add_picture("char.png", width=Inches(0.2), height=Inches(0.2))
-    run.add_text(" ")
-    
+  for sentence in text[::-1]:
+    paragraph = document.add_paragraph()
+    paragraph.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+    run = paragraph.add_run()
+    for word in sentence[::-1]:
+      for label in word[::-1]:
+        img = create_image(label, (40,40), font, char_map)
+        img.save("char.png")
+        run.add_picture("char.png", width=Inches(0.2), height=Inches(0.2))
+      run.add_text(" word ")
+    run.add_text(" sentence ")
 
   document.save("transcription.docx")
       

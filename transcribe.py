@@ -2,10 +2,14 @@ from utility import get_font_and_char_map, create_image, load_predictions, trans
 
 predictions = load_predictions()
 word = [x for x in predictions["labels"]]
+
 sentence = []
 sentence.append(word)
 sentence.append(word)
 
-font,  char_map = get_font_and_char_map()
+text = []
+text.append(sentence)
+text.append(sentence)
 
-transcribe(sentence, font, char_map)
+font,  char_map = get_font_and_char_map()
+transcribe(text, font, char_map)
