@@ -115,4 +115,4 @@ def save(analyzed_predictions):
   # Save the analyzed predictions.
   if not os.path.isdir("./output"):
     os.mkdir("./output")
-  analyzed_predictions.to_csv("./output/analyzed-predictions.csv")
+  analyzed_predictions.to_csv("./output/analyzed-predictions.csv", index=False)
