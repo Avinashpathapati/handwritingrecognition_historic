@@ -6,14 +6,14 @@ import numpy as np
 from keras.preprocessing.image import ImageDataGenerator
 
 from utility import load_data, randomize, split
-from preprocessing import preprocess_training
+from preprocessing import preprocess
 from cnn import CNN
 
 
 images, labels = load_data("../character-data")
 classes = len(np.unique(labels))
 
-images, labels = preprocess_training(images, labels)
+images, labels = preprocess(images, labels)
 images, labels = randomize(images, labels)
 x_train, x_test, y_train, y_test = split(images, labels)
 

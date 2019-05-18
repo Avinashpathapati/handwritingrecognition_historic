@@ -8,13 +8,13 @@ import numpy as np
 import os
 
 from utility import load_images, parse_input_arguments, make_predictions, analyze, save
-from preprocessing import preprocess_testing
+from preprocessing import preprocess
 
 arguments = parse_input_arguments()
 
-# Load and preprocess the images
+# Load and preprocess the images.
 images, filenames = load_images(arguments["images"])
-images = preprocess_testing(images)
+images = preprocess(images)
 
 # Load the model and make the predictions. Use a generator with the same settings as in
 # training to make the predictions better.

@@ -12,6 +12,7 @@ from sklearn.model_selection import train_test_split
 
 
 def plot(image, name):
+  cv.namedWindow(name, cv.WINDOW_NORMAL)
   cv.imshow(name, image)
   cv.waitKey(0)
   cv.destroyWindow(name)
