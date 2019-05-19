@@ -3,7 +3,7 @@ import pandas as pd
 from docx import Document
 from docx.shared import Inches
 from docx.enum.text import WD_ALIGN_PARAGRAPH
-
+import unicodedata
 
 
 def load_predictions():
@@ -11,37 +11,34 @@ def load_predictions():
   return predictions
 
 def transcribe(text):
-  #Load the font and set the font size to 42
-  font = ImageFont.truetype('../fonts/SBL_Hbrw.TTF', 42)
-
-  #Character mapping for each of the 27 tokens
-  char_map = {'Alef' : ')', 
-              'Ayin' : '(', 
-              'Bet' : 'b', 
-              'Dalet' : 'd', 
-              'Gimel' : 'g', 
-              'He' : 'x', 
-              'Het' : 'h', 
-              'Kaf' : 'k', 
-              'Kaf-final' : '\\', 
-              'Lamed' : 'l', 
-              'Mem' : '{', 
-              'Mem-medial' : 'm', 
-              'Nun-final' : '}', 
-              'Nun-medial' : 'n', 
-              'Pe' : 'p', 
-              'Pe-final' : 'v', 
-              'Qof' : 'q', 
-              'Resh' : 'r', 
-              'Samekh' : 's', 
-              'Shin' : '$', 
-              'Taw' : 't', 
-              'Tet' : '+', 
-              'Tsadi-final' : 'j', 
-              'Tsadi-medial' : 'c', 
-              'Waw' : 'w', 
-              'Yod' : 'y', 
-              'Zayin' : 'z'}
+  # Character mapping.
+  char_map = {'Alef' : 'א', 
+              'Ayin' : 'ע', 
+              'Bet' : 'ב', 
+              'Dalet' : 'ד', 
+              'Gimel' : 'ג', 
+              'He' : 'ה', 
+              'Het' : 'ח', 
+              'Kaf' : 'כ', 
+              'Kaf-final' :'ך', 
+              'Lamed' : 'ל', 
+              'Mem' : 'ם', 
+              'Mem-medial' : 'מ', 
+              'Nun-final' : 'ן', 
+              'Nun-medial' : 'נ', 
+              'Pe' : 'פ', 
+              'Pe-final' : 'ף', 
+              'Qof' : 'ק', 
+              'Resh' : 'ר', 
+              'Samekh' : 'ס', 
+              'Shin' : 'ש', 
+              'Taw' : 'ת', 
+              'Tet' : 'ט', 
+              'Tsadi-final' : 'ץ', 
+              'Tsadi-medial' : 'צ', 
+              'Waw' : 'ו', 
+              'Yod' : 'י', 
+              'Zayin' : 'ז'}
 
   document = Document()
   

@@ -14,3 +14,4 @@ text.append(sentence)
 transcribe(text)
 
 #create_image('Alef', (50,50)).save("t.png")
+#print(u'\u05DE'.encode('utf-8').decode('utf-8'))
