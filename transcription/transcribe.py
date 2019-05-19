@@ -1,4 +1,4 @@
-from utility import get_font_and_char_map, create_image, load_predictions, transcribe
+from utility import create_image, load_predictions, transcribe
 
 predictions = load_predictions()
 word = [x for x in predictions["labels"]]
@@ -11,5 +11,6 @@ text = []
 text.append(sentence)
 text.append(sentence)
 
-font,  char_map = get_font_and_char_map()
-transcribe(text, font, char_map)
+transcribe(text)
+
+#create_image('Alef', (50,50)).save("t.png")
