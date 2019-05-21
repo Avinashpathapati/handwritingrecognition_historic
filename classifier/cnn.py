@@ -20,6 +20,7 @@ import numpy as np
 
 
 class CNN():
+
   def __init__(self, height, width, depth, classes):
     self.height = height
     self.width = width

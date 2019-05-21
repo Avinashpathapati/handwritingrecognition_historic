@@ -17,8 +17,10 @@ def plot(image, name):
   cv.waitKey(0)
   cv.destroyWindow(name)
 
+
 def read_image(path):
   return cv.imread(path, cv.IMREAD_UNCHANGED)
+
 
 def load_data(path):
   print("loading data...")
@@ -34,6 +36,7 @@ def load_data(path):
 
   return images, labels
 
+
 def load_images(path):
   print("loading images...")
 
@@ -47,6 +50,7 @@ def load_images(path):
 
   return images, filenames
 
+
 def randomize(images, labels):
   print("shuffling data...")
   
@@ -56,12 +60,14 @@ def randomize(images, labels):
   
   return images, labels
 
+
 def split(images, labels):
   print("splitting data...")
 
   (x_train, x_test, y_train, y_test) = train_test_split(images, labels, test_size=0.25, random_state=1)
   
   return x_train, x_test, y_train, y_test
+
 
 def parse_input_arguments():
   parser = argparse.ArgumentParser()
@@ -74,6 +80,7 @@ def parse_input_arguments():
     raise Exception("no files found in path to input character images")
 
   return arguments
+
 
 def make_predictions(model, images, generator=None):
   print("making predictions...")
@@ -90,6 +97,7 @@ def make_predictions(model, images, generator=None):
     predictions = np.mean(predictions, axis=0)
   
   return predictions
+
 
 def analyze(predictions, filenames):
   print("analyzing predictions...")
@@ -108,6 +116,7 @@ def analyze(predictions, filenames):
   analyzed_predictions["probabilities"] = probabilities
 
   return analyzed_predictions
+
 
 def save(analyzed_predictions):
   print("saving analyzed predictions to ./output...")

@@ -11,10 +11,12 @@ def __resize(images, dimensions):
   images = [cv.resize(x, dimensions) for x in images]
   return images
 
+
 def __binarize(images):
   images = [cv.threshold(x, 0, 255, cv.THRESH_BINARY + cv.THRESH_OTSU)[1] for x in images]
   images = [x / 255 for x in images]
   return images
+
 
 def preprocess(images, labels=None):
   print("preprocessing data...")

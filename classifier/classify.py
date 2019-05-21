@@ -10,6 +10,7 @@ import os
 from utility import load_images, parse_input_arguments, make_predictions, analyze, save
 from preprocessing import preprocess
 
+
 arguments = parse_input_arguments()
 
 # Load and preprocess the images.
