@@ -58,6 +58,19 @@ class CNN():
     self.model.summary()
 
   def train(self, x_train, y_train, epochs, batch_size, generator=None):
+    # Handle any value errors on the input arguments.
+    if batch_size > x_train.shape[0]:
+      raise ValueError("batch size should be less than size of data")
+    if batch_size <= 0:
+      raise ValueError("batch size should be greater than 0")
+    if not isinstance(batch_size, int):
+      raise ValueError("batch size should be an integer")
+    
+    if epochs <= 0:
+      raise ValueError("epochs should be greater than 0")
+    if not isinstance(epochs, int):
+      raise ValueError("epochs should be an integer")
+      
     if generator is not None:
       # Train using the given generator for data augmentation.
       generator._validation_split = 0.25
