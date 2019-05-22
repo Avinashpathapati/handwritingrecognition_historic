@@ -15,7 +15,7 @@ classes = len(np.unique(labels))
 
 images, labels = preprocess(images, labels)
 images, labels = randomize(images, labels)
-x_train, x_test, y_train, y_test = split(images, labels)
+x_train, x_test, y_train, y_test = split(images, labels, test_size=0.25)
 
 # Delete the images and labels arrays to free memory.
 del images

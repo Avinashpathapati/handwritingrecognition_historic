@@ -61,10 +61,10 @@ def randomize(images, labels):
   return images, labels
 
 
-def split(images, labels):
+def split(images, labels, test_size):
   print("splitting data...")
 
-  (x_train, x_test, y_train, y_test) = train_test_split(images, labels, test_size=0.25, random_state=1)
+  (x_train, x_test, y_train, y_test) = train_test_split(images, labels, test_size=test_size, random_state=1)
   
   return x_train, x_test, y_train, y_test
 

@@ -58,7 +58,7 @@ class CNN():
     print("--------------------")
     self.model.summary()
 
-  def train(self, x_train, y_train, epochs, batch_size, generator=None):
+  def train(self, x_train, y_train, epochs, batch_size, generator=None, validation_split=0):
     # Handle any value errors on the input arguments.
     if batch_size > x_train.shape[0]:
       raise ValueError("batch size should be less than size of data")
@@ -71,40 +71,68 @@ class CNN():
       raise ValueError("epochs should be greater than 0")
     if not isinstance(epochs, int):
       raise ValueError("epochs should be an integer")
+
+    if validation_split < 0:
+      raise ValueError("validation split should be greater than 0 or equal to 0")
+    if validation_split >= 1:
+      raise ValueError("validation split should be less than 1")
       
-    if generator is not None:
-      # Train using the given generator for data augmentation.
-      generator._validation_split = 0.25
+    if generator is not None and validation_split != 0:
+      # Train using the given generator for data augmentation, with validation split.
+      generator._validation_split = validation_split
       training_generator = generator.flow(x_train, y_train, batch_size=batch_size, subset="training")
       validation_generator = training_generator = generator.flow(x_train, y_train, batch_size=batch_size, subset="validation")
       
       fitting = self.model.fit_generator(training_generator, validation_data=validation_generator,
                                          steps_per_epoch=int(x_train.shape[0] / batch_size),
-                                         validation_steps = int(x_train.shape[0] * 0.25 / batch_size),
+                                         validation_steps=int(x_train.shape[0] * validation_split / batch_size),
                                          epochs=epochs)
+    elif generator is not None:
+      # Train using the given generator for data augmentation, without validation split.
+      training_generator = generator.flow(x_train, y_train, batch_size=batch_size)
+      
+      fitting = self.model.fit_generator(training_generator, steps_per_epoch=int(x_train.shape[0] / batch_size), epochs=epochs)
+    elif validation_split != 0:
+      fitting = self.model.fit(x_train, y_train, validation_split=validation_split, epochs=epochs, batch_size=batch_size)
     else:
-      fitting = self.model.fit(x_train, y_train, validation_split=0.25, epochs=epochs, batch_size=batch_size)
+      fitting = self.model.fit(x_train, y_train, epochs=epochs, batch_size=batch_size)
 
+    # Save the training results.
     if not os.path.isdir("./output"):
       os.mkdir("./output")
 
-    plt.plot(fitting.history["acc"])
-    plt.plot(fitting.history["val_acc"])
-    plt.title("CNN accuracy")
-    plt.ylabel("Accuracy")
-    plt.xlabel("Epoch")
-    plt.legend(["Training set", "Validation set"], loc="upper left")
-    plt.savefig("./output/cnn-fitting-accuracy")
-    plt.close()
+    if validation_split != 0:
+      plt.plot(fitting.history["acc"])
+      plt.plot(fitting.history["val_acc"])
+      plt.title("CNN accuracy")
+      plt.ylabel("Accuracy")
+      plt.xlabel("Epoch")
+      plt.legend(["Training set", "Validation set"], loc="upper left")
+      plt.savefig("./output/cnn-fitting-accuracy")
+      plt.close()
 
-    plt.plot(fitting.history["loss"])
-    plt.plot(fitting.history["val_loss"])
-    plt.title("CNN loss")
-    plt.ylabel("Loss")
-    plt.xlabel("Epoch")
-    plt.legend(["Training set", "Validation set"], loc="upper left")
-    plt.savefig("./output/cnn-fitting-loss")
-    plt.close()
+      plt.plot(fitting.history["loss"])
+      plt.plot(fitting.history["val_loss"])
+      plt.title("CNN loss")
+      plt.ylabel("Loss")
+      plt.xlabel("Epoch")
+      plt.legend(["Training set", "Validation set"], loc="upper left")
+      plt.savefig("./output/cnn-fitting-loss")
+      plt.close()
+    else:
+      plt.plot(fitting.history["acc"])
+      plt.title("CNN training accuracy")
+      plt.ylabel("Accuracy")
+      plt.xlabel("Epoch")
+      plt.savefig("./output/cnn-fitting-accuracy")
+      plt.close()
+
+      plt.plot(fitting.history["loss"])
+      plt.title("CNN training loss")
+      plt.ylabel("Loss")
+      plt.xlabel("Epoch")
+      plt.savefig("./output/cnn-fitting-loss")
+      plt.close()
 
   def test(self, x_test, y_test, generator=None):
     if generator is not None:
