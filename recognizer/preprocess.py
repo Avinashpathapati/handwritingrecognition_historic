@@ -9,6 +9,7 @@ from skimage.filters import (threshold_otsu, threshold_niblack,
 from recognizer.utility import invert_image
 
 from matplotlib import pyplot as plt
+from external_code import sauvola
 
 
 def normalize(image):
@@ -16,7 +17,7 @@ def normalize(image):
 
 def smooth(image):
   #image = cv.medianBlur(image, 5)
-  image = cv.GaussianBlur(image, (5, 5), 0)
+  image = cv.GaussianBlur(image, (3, 3), 0)
   return image
 
 def binarize(image):
@@ -26,6 +27,11 @@ def binarize(image):
                               #cv.THRESH_BINARY, 11, 2)
   image = cv.threshold(image, 0, 255, cv.THRESH_BINARY + cv.THRESH_OTSU)[1]
   return image
+
+
+def binarize_sauvola(image):
+  imbw = sauvola.binarize(image, [75, 75],64, 0.3)
+  return imbw
 
 def thresholded_binarisation(image,threshold):
   image = cv.threshold(image, threshold, 255,cv.THRESH_BINARY)[1]
@@ -70,15 +76,65 @@ def enhance(image):
   image = cv.morphologyEx(image, cv.MORPH_CLOSE, kernel)
   return image
 
+
+def edge_detection(img,mask):
+  edges = cv.Canny(img,100,200)
+
+
+  return edges
+
+
+def enhance_2(im):
+    kernel = np.ones((3, 3), np.uint8)
+    im = cv.erode(im, kernel, iterations=1)
+    kernel = np.ones((3, 3), np.uint8)
+    im = cv.dilate(im, kernel, iterations=1)
+
+    return im
+
+
+def area_closing(img):
+  kernel=np.ones((3, 3), np.uint8)
+  closing = cv.morphologyEx(img, cv.MORPH_CLOSE, kernel)
+  return closing
+
+
+def area_opening(img):
+  kernel = np.ones((3, 3), np.uint8)
+  opening = cv.morphologyEx(img, cv.MORPH_OPEN, kernel)
+  return opening
+
+
 def preprocess(data):
   print("preprocessing images...")
 
   images = [x[0] for x in data]
   masks = [x[1] for x in data]
   #images = [smooth(x) for x in images]
+
   images = [binarize(x) for x in images]
+  #images = [binarize_sauvola(x) for x in images]
+
   #images = [additional_binarisation(invert_image(x)) for x in images]
   images = [whiten_background(x, y) for x, y in zip(images, masks)]
+
+  #images = [enhance_2(x) for x in images]
+
+  #images = [smooth(x) for x in images]
+  #images = [edge_detection(x,y) for x, y in zip(images, masks)]
+
+  images = [abs(255-area_opening(abs(255-x))) for x in images]
+  images = [abs(255-area_closing(abs(255-x))) for x in images]
+
+  images = [abs(255 - area_opening(abs(255 - x))) for x in images]
+  images = [abs(255 - area_closing(abs(255 - x))) for x in images]
+
+  images = [abs(255 - area_opening(abs(255 - x))) for x in images]
+  images = [abs(255 - area_closing(abs(255 - x))) for x in images]
+
+  #images = [edge_detection(x, y) for x, y in zip(images, masks)]
+  #images = [area_closing(x) for x in images]
+  #images = [smooth(x) for x in images]
 
 
   #images = [smooth(x) for x in images]

@@ -2,13 +2,13 @@
 import cv2 as cv
 import numpy as np
 
-from recognizer.utility import plot_opencv
-import math
+from recognizer.utility import plot_opencv,save_opencv
 from external_code.horizontal_profiling import get_valleys
-from external_code.path_finder_a_star import Astar
 
-from recognizer.utility import invert_image
-
+from external_code.astar import Astar
+from utility.utility import timeit
+from external_code.jps import Jps
+from segmentation.graph_based import GraphBasedLS
 
 class LineSementation():
 	def __init__(self):
@@ -20,39 +20,66 @@ class LineSementation():
 		return None
 
 	def technique_a_star(self,img):
-		valleys=get_valleys(img)
-		print(valleys)
-		#valleys=valleys[1:3]
+		#img = img[:100,:]
+		#print(img)
+		# step = int(img.shape[1]/1)
+		# img1 =  img[:,:step]
+		# valleys1=get_valleys(img1)
+		# img2 = img[:, step:2*step]
+		# print(img2.shape,'0')
+		# valley2=get_valleys(img2)
+		# print(valleys1,'1')
+		#
+		# start_node = [int(valleys1[7]), 0]
+		# #goal_node = [int(valley2[0]), step-1]
+		# goal_node = [int(valleys1[7]), step - 1]
+		# print(start_node,goal_node,img1.shape,'2')
+		# #return
+		# img=self.get_line(img1,start_node,goal_node)
+		#
+		# start_node = [int(valleys1[6]), 0]
+		# # goal_node = [int(valley2[0]), step-1]
+		# goal_node = [int(valleys1[6]), step - 1]
+		# print(start_node, goal_node, img1.shape, '2')
+		# # return
+		# img = self.get_line(img1, start_node, goal_node)
+
+		#############################################3
 		img_W = img.shape[1]
 		img_H = img.shape[0]
 		print(img_W,img_H)
-
 		paths=[]
 		maps=[]
+		valleys = get_valleys(img)
+		#valleys=valleys[1:2]
 
 		for valley in valleys:
 			print('working on valley--',valley)
 			path_finder = Astar(grid=img)
+			#path_finder =Jps(grid=img)
 			start_node = [int(valley),0]
 			goal_node=[int(valley),img_W-1]
-			start_node = (0,int(valley))
-			goal_node = (img_W - 1,int(valley))
 
-			cv.line(img,start_node,goal_node,0)
-			#print(start_node,goal_node)
-		# 	path_for_valley,map = path_finder.pathfind(start_node,goal_node)
-		#
-		# 	paths.append(path_for_valley)
-		# 	maps.append(map)
-		#
+			path_for_valley,map = path_finder.pathfind(start_node,goal_node)
+
+			paths.append(path_for_valley)
+			maps.append(map)
+
 		# for map in maps:
 		# 	self.draw_map(img,map)
-
-		# for path in paths:
-		# 	self.draw_line(img,path)
+		#
+		for path in paths:
+			self.draw_line(img,path)
 
 
 		return img
+
+	def get_line(self,img,start,goal):
+		path_finder = Astar(grid=img)
+		path_for_valley, map = path_finder.pathfind(start, goal)
+		self.draw_line(img, path_for_valley)
+		return img
+
 
 	def draw_line(self,img, path):
 		for p in path:
@@ -63,12 +90,19 @@ class LineSementation():
 			img[m.row, m.col] = 0
 
 
+	def tech_graph_based(self,img):
+		method  = GraphBasedLS(img)
+		new_img = method.run()
+		#plot_opencv(new_img)
+		return new_img
 
-
+	@timeit
 	def test_segmentation(self,img):
 		#img = self.technique_hough(img)
-		img = self.technique_a_star(img)
+		#img = self.technique_a_star(img)
+		img = self.tech_graph_based(img)
 		plot_opencv(img)
+		save_opencv(img, '../data/test/', '28.png')
 		return
 
 
