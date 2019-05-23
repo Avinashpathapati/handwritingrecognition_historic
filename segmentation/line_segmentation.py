@@ -8,6 +8,7 @@ from external_code.horizontal_profiling import get_valleys
 from external_code.path_finder_a_star import Astar
 
 from recognizer.utility import invert_image
+from recognizer.preprocess import *
 
 
 class LineSementation():
@@ -17,20 +18,33 @@ class LineSementation():
 	def technique_hough(self,img):
 		hough = HoughTransformationBased()
 		hough.run(img)
-		return None
+		return
+
+	def technique_fast_astar(self, img):
+		stripe = 500
+		im = invert_image(img)
+		height, width = im.shape
+		projection_profiles = np.zeros((height, width), np.uint8)
+		column = 0
+		while (column < width):
+			pp = cv.reduce(im[:,column:width], 1, cv.REDUCE_SUM, dtype=cv.CV_32F)
+			projection_profiles[:,column]  = pp[:,0]
+			column += stripe
 
 	def technique_lpp(self,img):
-		stripe = 150
+		stripe = 500
 		im = invert_image(img)
 		height, width = im.shape
 		llp_image = np.zeros((height, width), np.uint8)
 		for column in range(width-1,0,-1):
 			llp = cv.reduce(im[:,column:column+stripe], 1, cv.REDUCE_SUM, dtype=cv.CV_32F)
 			llp_image[:,column] = llp[:,0]
-
-		kernel = np.ones((40,10), np.float32)/25
+		cv.imwrite('result.png', llp_image)
+		kernel = np.ones((30,10), np.float32)/25
 		llp_image = cv.filter2D(llp_image, -1, kernel)
 		cv.imwrite('result_llp_blur.png', llp_image)
+		self.technique_hough(llp_image)
+		# whiten_background(img,llp)
 
 		# @TODO:
 		# find the optimal values for the kernel
@@ -108,7 +122,7 @@ class LineSementation():
 		#img = self.technique_hough(img)
 		#img = self.technique_a_star(img)
 		img  = self.technique_lpp(img)
-		plot_opencv(img)
+		# plot_opencv(img)
 		return
 
 

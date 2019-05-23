@@ -66,7 +66,7 @@ class ExtractorByOpening():
 	def testing_start(self):
 		image_path = '../data/test/'
 		#image_name = 'another_sample.jpg'
-		image_name = '6_test.jpg'
+		image_name = '7_test.jpg'
 		#image_name = 'small.png'
 
 		image = self.load_image(image_path, image_name, load_greyscale=True)
