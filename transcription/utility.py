@@ -4,14 +4,30 @@ from docx import Document
 from docx.shared import Inches
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 import unicodedata
+import os
+import ntpath
 
 
-def load_predictions():
-  predictions = pd.read_csv("analyzed-predictions.csv")
+def load_predictions(path):
+  predictions = pd.read_csv(path + "/analyzed-predictions.csv")
   return predictions
 
-def transcribe(text):
-  # Character mapping.
+
+def get_filename_from(path):
+    head, tail = ntpath.split(path)
+    return tail or ntpath.basename(head)
+
+
+def transcribe_scrolls(scrolls_path, output_path):
+  if not os.path.isdir(output_path):
+    os.mkdir(output_path)
+  print("transcribing scrolls to " + output_path)
+
+  for scroll_folder in os.listdir(scrolls_path):
+    transcribe_scroll(scrolls_path + "/" + scroll_folder, output_path)
+
+
+def transcribe_scroll(scroll_path, output_path):
   char_map = {'Alef' : 'א', 
               'Ayin' : 'ע', 
               'Bet' : 'ב', 
@@ -42,11 +58,13 @@ def transcribe(text):
 
   document = Document()
   
-  for sentence in text[::-1]:
+  for line_directory in os.listdir(scroll_path + "/"):
     paragraph = document.add_paragraph()
     paragraph.alignment = WD_ALIGN_PARAGRAPH.RIGHT
     run = paragraph.add_run()
-    for word in sentence[::-1]:
+    for word_directory in os.listdir(scroll_path + "/" + line_directory + "/"):
+      predictions = load_predictions(scroll_path + "/" + line_directory + "/" + word_directory + "/")
+      word = [x for x in predictions["labels"]]
       for label in word[::-1]:
         if (label not in char_map):
           raise KeyError('Unknown label!')  
@@ -54,51 +72,5 @@ def transcribe(text):
       run.add_text(" ")
     run.add_text("\n")
 
-  document.save("transcription.docx")
-  
-#Returns a grayscale image based on specified label of img_size
-def create_image(label, img_size):
-  #Load the font and set the font size to 42
-  font = ImageFont.truetype('../fonts/Habbakuk.TTF', 42)
-
-  #Character mapping for each of the 27 tokens
-  char_map = {'Alef' : ')', 
-              'Ayin' : '(', 
-              'Bet' : 'b', 
-              'Dalet' : 'd', 
-              'Gimel' : 'g', 
-              'He' : 'x', 
-              'Het' : 'h', 
-              'Kaf' : 'k', 
-              'Kaf-final' : '\\', 
-              'Lamed' : 'l', 
-              'Mem' : '{', 
-              'Mem-medial' : 'm', 
-              'Nun-final' : '}', 
-              'Nun-medial' : 'n', 
-              'Pe' : 'p', 
-              'Pe-final' : 'v', 
-              'Qof' : 'q', 
-              'Resh' : 'r', 
-              'Samekh' : 's', 
-              'Shin' : '$', 
-              'Taw' : 't', 
-              'Tet' : '+', 
-              'Tsadi-final' : 'j', 
-              'Tsadi-medial' : 'c', 
-              'Waw' : 'w', 
-              'Yod' : 'y', 
-              'Zayin' : 'z'}
-
-  if (label not in char_map):
-    raise KeyError('Unknown label!')
-
-  #Create blank image and create a draw interface
-  img = Image.new('L', img_size, 255)    
-  draw = ImageDraw.Draw(img)
-
-  #Get size of the font and draw the token in the center of the blank image
-  w,h = font.getsize(char_map[label])
-  draw.text(((img_size[0]-w)/2, (img_size[1]-h)/2), char_map[label], 0, font)
-
-  return img
+  scroll_filename = get_filename_from(scroll_path)
+  document.save(output_path + "/" + scroll_filename + ".docx")
