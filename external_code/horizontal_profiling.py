@@ -29,7 +29,7 @@ def enhance(im):
 
     return im
 
-def projection_analysis(im):
+def projection_analysis(im,return_hist=False):
     # compute the ink density histogram (sum each rows)
     hist = cv2.reduce(im, 1, cv2.REDUCE_SUM)
     hist = hist.ravel()
@@ -37,7 +37,7 @@ def projection_analysis(im):
     max_hist = max(hist)
     mean_hist = np.mean(hist)
     thres_hist = mean_hist / max_hist
-    peaks = peakutils.indexes(hist, thres=thres_hist, min_dist=10)#hyperparameter here
+    peaks = peakutils.indexes(hist, thres=thres_hist, min_dist=50)#hyperparameter here
     # find peaks that are too high
     #hist=hist.astype(int)
     peaks=peaks.astype(int)
@@ -49,4 +49,6 @@ def projection_analysis(im):
     peaks = peaks[np.logical_and(hist[peaks] < thres_peaks_high,
                                  hist[peaks] > thres_peaks_low)]
 
+    if return_hist:
+        return peaks,hist[peaks]
     return peaks

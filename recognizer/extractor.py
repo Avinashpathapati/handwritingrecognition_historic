@@ -1,5 +1,5 @@
-from recognizer.utility import load_single_image, plot_opencv, plot_matplotlib
-from recognizer.preprocess import binarize,thresholded_binarisation
+from recognizer.utility import load_single_image, plot_opencv, plot_matplotlib,plot_histogram
+from recognizer.preprocess import binarize,thresholded_binarisation,niblack_and_otsu_binarisation
 import numpy as np
 import cv2 as cv
 
@@ -53,23 +53,49 @@ class ExtractorByOpening():
 
 		return mask
 
+	def adjust_gamma(self,image, gamma=1.0):
+
+		invGamma = 1.0 / gamma
+		table = np.array([((i / 255.0) ** invGamma) * 255
+						  for i in np.arange(0, 256)]).astype("uint8")
+
+		return cv.LUT(image, table)
+
+
+	def otsu_binarisation(self,image):
+		image_otsu = cv.threshold(image, 0, 255, cv.THRESH_BINARY + cv.THRESH_OTSU)[1]
+		return image_otsu
+
+
 	def extract_text(self, image):
 		mask = self.area_closing(image)
 		mask = self.area_opening(mask)
-		mask = thresholded_binarisation(mask, 25) #Hypeparameter is threshold
+
+		#plot_opencv(mask)
+		#plot_histogram(mask)
+
+		mask = self.otsu_binarisation(mask)
+		#mask = niblack_and_otsu_binarisation(mask,window_size=25)
+		#plot_opencv(mask)
+		#mask = thresholded_binarisation(mask, 25) #Hypeparameter is threshold
+
 		mask = self.get_biggest_component(mask)
 
 		image = cv.bitwise_and(image, image, mask = mask)
 
+		#plot_opencv(image)
+
 		return image, mask
 
 	def testing_start(self):
-		image_path = '../data/test/'
+		image_path = '../data/test/imgs/'
+		#image_path = '../data/test/tmp/'
 		#image_name = 'another_sample.jpg'
 		#image_name = 'character_test.png'
-		#image_name = '0_test.jpg'
+		image_name = '8_test.jpg'
 		#image_name = 'small.png'
-		image_name = 'line2.png'
+		#image_name = 'line2.png'
+		#image_name = '2634.png'
 
 		image = self.load_image(image_path, image_name, load_greyscale=True)
 		#image = self.area_closing(image)

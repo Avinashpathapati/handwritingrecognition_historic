@@ -8,7 +8,10 @@ from external_code.horizontal_profiling import get_valleys
 from external_code.astar import Astar
 from utility.utility import timeit
 from external_code.jps import Jps
-from segmentation.graph_based import GraphBasedLS
+from segmentation.graph_based import GraphLSManager
+from segmentation.water_flow import WaterFlow
+import matplotlib.pyplot as plt
+from external_code.horizontal_profiling import projection_analysis
 
 class LineSementation():
 	def __init__(self):
@@ -91,18 +94,66 @@ class LineSementation():
 
 
 	def tech_graph_based(self,img):
-		method  = GraphBasedLS(img)
-		new_img = method.run()
+		method = GraphLSManager(img)
+		#method  = GraphBasedLS(img)
+		new_img = method.start()
 		#plot_opencv(new_img)
 		return new_img
+
+	def tech_water_flow(self,img):
+		method = WaterFlow(img)
+
+		new_img = method.run()
+		#new_img=img
+		#new_img = abs(255-new_img)
+		#new_img = new_img.astype(np.uint8)
+		#new_img = self.technique_a_star(new_img)
+		#new_img = self.tech_graph_based(new_img)
+
+		# img[new_img==255] = 255
+		# img=method.draw_blocks(img)
+		# return img
+		return new_img
+
+	def segment_lines(self,img):
+		# new_img = self.tech_water_flow(img)
+		# img[new_img == 0] = 255
+		img = self.tech_graph_based(img)
+		return img
 
 	@timeit
 	def test_segmentation(self,img):
 		#img = self.technique_hough(img)
 		#img = self.technique_a_star(img)
-		img = self.tech_graph_based(img)
-		plot_opencv(img)
-		save_opencv(img, '../data/test/', '28.png')
+		#img = self.tech_graph_based(img)
+		new_img = self.tech_water_flow(img)
+		plot_opencv(new_img)
+		new_img2 = np.where(new_img == 0, 100, new_img)
+		plot_opencv(new_img2)
+
+		#############################3
+		# new_img = self.tech_water_flow(img)
+		# peaks,hist=projection_analysis(new_img,return_hist=True)
+		# # plt.plot(peaks,hist, color='k')
+		# # #plt.xlim(peaks)
+		# # plt.show()
+		# new_img=new_img.astype(np.uint8)
+		# new_img2=np.where(new_img == 0,100, new_img)
+		# for peak in peaks:
+		# 	cv.line(new_img2,(0,peak),(img.shape[1],peak),(200, 200), 1)
+		# plot_opencv(new_img2)
+		# #new_img2[img == 0] = 0
+		# #plot_opencv(new_img2)
+		###############################
+
+
+
+		# img = self.tech_graph_based(img)
+		# plot_opencv(img)
+		#save_opencv(img, '../data/test/', '28.png')
+
+
+
 		return
 
 
