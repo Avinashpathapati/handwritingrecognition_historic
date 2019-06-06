@@ -182,22 +182,8 @@ def preprocess(data):
   masks = [x[1] for x in data]
   images = [smooth(x) for x in images]
   images = [conv2blurring(x) for x in images]
-  #images = [bilateral_filter_noise_removal(x) for x in images]
-
-  #images = [binarize(x) for x in images]
-  #images = [binarize_sauvola(x) for x in images]
-  #images = [niblack_and_otsu_binarisation(x,window_size=3) for x in images]
-
   images = [otsu_edge_binarisation(x) for x in images]
-
-  #images = [additional_binarisation(invert_image(x)) for x in images]
   images = [whiten_background(x, y) for x, y in zip(images, masks)]
-
-  #images = [enhance_2(x) for x in images]
-
-  #images = [smooth(x) for x in images]
-  #images = [edge_detection(x,y) for x, y in zip(images, masks)]
-
 
   ####################
   images = [abs(255-area_opening(abs(255-x))) for x in images]
@@ -209,21 +195,6 @@ def preprocess(data):
   images = [abs(255 - area_opening(abs(255 - x))) for x in images]
   images = [abs(255 - area_closing(abs(255 - x))) for x in images]
   ######################
-
-  #images = [bilateral_filter_noise_removal(x) for x in images]
-
-  #images = [edge_detection(x, y) for x, y in zip(images, masks)]
-  #images = [area_closing(x) for x in images]
-  #images = [smooth(x) for x in images]
-
-
-  #images = [smooth(x) for x in images]
-
-
-  #images = [~x for x in images]
-
-  #images = [enhance(x) for x in images]
-  #images = [remove_border(x) for x in images]
 
   return images
 

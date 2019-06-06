@@ -98,11 +98,6 @@ class GraphNode(object):
 		sum_dist=0
 		#for center1 in self.centers:
 		for center2 in other.centers:
-			# dist = (((center1.ax - center2.ax) ** 2) + ((center1.ay - center2.ay) ** 2)) ** 0.5
-			# try:
-			# 	angle = np.tanh(abs(center1.ax - center2.ax) / abs(center1.ay - center2.ay)) * (180/np.pi)
-			# except :
-			# 	angle =90
 
 			dist = (((self.gc_x - center2.ax) ** 2) + ((self.gc_y - center2.ay) ** 2)) ** 0.5
 			try:
@@ -112,9 +107,6 @@ class GraphNode(object):
 
 			sum_angle = sum_angle + angle
 			sum_dist = sum_dist + dist
-
-		# angle = sum_angle/(len(self.centers)* len(other.centers))
-		# dist = sum_dist/(len(self.centers)* len(other.centers))
 
 		angle = sum_angle/len(other.centers)
 		dist = sum_dist/len(other.centers)
@@ -146,15 +138,11 @@ class GraphLSManager():
 		method = GraphBasedLS(self.img)
 		lines,line_images = method.run()
 
-		# lines = self.post_process(lines,line_images)
-		# img = self.draw_colored_lines_from_given_lines(lines)
-
 		img = method.draw_colored_lines_from_given_lines(lines)
 		img= method.draw_blocks(img,lines)
 		img= method.draw_peak_lines(img)
 
-		#save_opencv(img,'../data/test/','1236.png')
-		return img
+		return img,line_images
 
 	def draw_colored_lines_from_given_lines(self,lines):
 		preview = np.zeros((self.img.shape[0], self.img.shape[1], 3), dtype=np.uint8)
@@ -165,14 +153,6 @@ class GraphLSManager():
 		return preview
 
 	def post_process(self,lines,line_images):
-		# img = abs(255 - line_images[4])
-		# img  = img.astype(np.uint8)
-		# method = GraphBasedLS(img)
-		# lines2= method.run(with_line_images=False)
-		# img=method.draw_colored_lines_from_given_lines(lines2)
-		# plot_opencv(img)
-		#
-		# return lines
 
 		num_peaks = []
 		average_num_pixels=[]
@@ -342,13 +322,7 @@ class GraphBasedLS():
 
 	def run(self,with_line_images=True):
 		img = self.get_centroids()
-
-		#lines = self.get_lines()
 		lines = self.get_lines_water_flow()
-
-		#lines = self.get_lines_hough()
-		#print(len(lines))
-		#lines = self.get_lines_probabilistic_hough()
 
 		# ntimes=1
 		# while ntimes > 0:
@@ -360,38 +334,7 @@ class GraphBasedLS():
 
 		self.give_color_to_lines(lines)
 
-
-
-		# num_components = self.get_num_components_to_be_considerd_as_line(lines)
-		# lines=self.adjust_colors_regression_4(lines,num_components)
-		#
-
 		lines = self.cluster_lines_h_range(lines)
-
-		# num_components = self.get_num_components_to_be_considerd_as_line(lines)
-		# lines=self.adjust_colors_regression_3(lines,num_components)
-
-
-
-		# num_components = self.get_num_components_to_be_considerd_as_line(lines)
-		# lines = self.adjust_colors_regression_2(lines, num_components)
-
-
-
-		# save_opencv(img, '../data/test/', '26.png')
-		#
-		# img = self.filter_lines_with_more_components(lines)
-		# save_opencv(img, '../data/test/', '27.png')
-
-		# for line in lines:
-		# 	pass
-
-		#lines = self.cluster_lines_h_range(lines,10)
-		#lines = self.cluster_lines_h_range(lines, 10)
-		#lines = self.cluster_lines_peaks(lines,10)
-
-		# img = self.draw_colored_lines_from_given_lines(lines)
-		# plot_opencv(img)
 
 		if with_line_images:
 			line_images=[]
@@ -680,7 +623,7 @@ class GraphBasedLS():
 		sorted_by_x = sorted(hrange,key=lambda x:x[1])
 
 		if len(sorted_by_x)==0:
-			print('*******************************')
+			#print('*******************************')
 			self.give_color_to_lines(not_imp_lines)
 			return not_imp_lines
 		#print(sorted_by_x)
@@ -725,7 +668,7 @@ class GraphBasedLS():
 			#print('In not imp')
 			total_cc_added = total_cc_added + len(l)
 
-		print('TOTAL h range', total_cc_added, total_cc_provided)
+		#print('TOTAL h range', total_cc_added, total_cc_provided)
 
 
 		self.give_color_to_lines(new_lines)

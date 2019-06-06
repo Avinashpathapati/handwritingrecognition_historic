@@ -70,21 +70,9 @@ class ExtractorByOpening():
 	def extract_text(self, image):
 		mask = self.area_closing(image)
 		mask = self.area_opening(mask)
-
-		#plot_opencv(mask)
-		#plot_histogram(mask)
-
 		mask = self.otsu_binarisation(mask)
-		#mask = niblack_and_otsu_binarisation(mask,window_size=25)
-		#plot_opencv(mask)
-		#mask = thresholded_binarisation(mask, 25) #Hypeparameter is threshold
-
 		mask = self.get_biggest_component(mask)
-
 		image = cv.bitwise_and(image, image, mask = mask)
-
-		#plot_opencv(image)
-
 		return image, mask
 
 	def testing_start(self):
