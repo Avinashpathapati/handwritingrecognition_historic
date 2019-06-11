@@ -118,10 +118,11 @@ def analyze(predictions, filenames):
   return analyzed_predictions
 
 
-def save(analyzed_predictions):
-  print("saving analyzed predictions to ./output...")
-
+def save(analyzed_predictions, path):
   # Save the analyzed predictions.
-  if not os.path.isdir("./output"):
-    os.mkdir("./output")
-  analyzed_predictions.to_csv("./output/analyzed-predictions.csv", index=False)
+  if not os.path.isdir(str(path)):
+    os.mkdir(str(path))
+
+  print("saving analyzed predictions to " + str(path))
+
+  analyzed_predictions.to_csv(str(path) + "/analyzed-predictions.csv", index=False)

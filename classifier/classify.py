@@ -11,18 +11,20 @@ from utility import load_images, parse_input_arguments, make_predictions, analyz
 from preprocessing import preprocess
 
 
-arguments = parse_input_arguments()
+scrolls_path = "/home/anpenta/Desktop/character-transcription/handwritingrecognition/test"
 
-# Load and preprocess the images.
-images, filenames = load_images(arguments["images"])
-images = preprocess(images)
-
-# Load the model and make the predictions. Use a generator with the same settings as in
-# training to make the predictions better.
 cnn = load_model("/home/anpenta/Desktop/character-classifier/handwritingrecognition/cnn-data-augmentation/final-model/cnn.h5")
 generator = ImageDataGenerator(zoom_range=0.1, width_shift_range=0.1, height_shift_range=0.1, rotation_range=5)
-predictions = make_predictions(cnn, images, generator=generator)
+for scroll_folder in os.listdir(scrolls_path):
+  for line_directory in os.listdir(scrolls_path + "/" + scroll_folder + "/"):
+    for word_directory in os.listdir(scrolls_path + "/" + scroll_folder + "/" + line_directory + "/"):
+      word_path = scrolls_path + "/" + scroll_folder + "/" + line_directory + "/" + word_directory + "/"
 
-analyzed_predictions = analyze(predictions, filenames)
-print(analyzed_predictions["labels"].value_counts()) # For inspection - to be deleted.
-save(analyzed_predictions)
+      # Load and preprocess the images.
+      images, filenames = load_images(word_path)
+      images = preprocess(images)
+      
+      predictions = make_predictions(cnn, images, generator=generator)
+      
+      analyzed_predictions = analyze(predictions, filenames)
+      save(analyzed_predictions, word_path)
