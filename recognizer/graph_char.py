@@ -152,6 +152,23 @@ def gap_stats_and_word_lengths(proj):
   
   return gap_loc_list,word_loc_list
 
+def dp_find_final_path(cost_path_arr, short_path_arr, cur_in, min_in):
+
+    for i in reversed(list(range(cur_in+1))):
+        if cur_in >= 1:
+            min_new_in = min_in
+            min_val = cost_path_arr[cur_in - 1][min_in]
+            if min_in - 1 >= 0:
+                if cost_path_arr[cur_in - 1][min_in - 1] < min_val:
+                    min_new_in = min_in - 1
+                    min_val = cost_path_arr[cur_in - 1][min_in - 1]
+            if min_in + 1 < cost_path_arr.shape[1]:
+                if cost_path_arr[cur_in - 1][min_in + 1] < min_val:
+                    min_new_in = min_in + 1
+                    min_val = cost_path_arr[cur_in - 1][min_in + 1]
+            short_path_arr[cur_in - 1] = min_new_in
+            min_in = min_new_in
+
 def find_recursive_path(cost_path_arr,short_path_arr, cur_in,min_in):
   min_val = sys.maxint
   min_new_in = -1
@@ -180,7 +197,9 @@ def find_path_shortest(cost_path_arr,short_path_arr):
       min_index = i
 
   short_path_arr[cost_path_arr.shape[0]-1] = min_index
-  find_recursive_path(cost_path_arr,short_path_arr, cost_path_arr.shape[0]-1,min_index)
+  #find_recursive_path(cost_path_arr,short_path_arr, cost_path_arr.shape[0]-1,min_index)
+  dp_find_final_path(cost_path_arr,short_path_arr, cost_path_arr.shape[0]-1,min_index)
+
 
 def path_search_dp(im,st, end):
   short_path_arr = [-1]*im.shape[0]
@@ -312,7 +331,7 @@ def over_seg_and_graph(images,scrol_name):
     print('started processing line ',str(im_ct))
     # Invert
     im = 255 - im
-    #im = clean_img(im)
+    im = clean_img(im)
     # Calculate vertical projection
     proj = np.sum(im,0)
     #Calculate horizontal projection
