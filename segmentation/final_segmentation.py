@@ -145,8 +145,27 @@ def gap_stats_and_word_lengths(proj):
     return gap_loc_list, word_loc_list
 
 
+def dp_find_final_path(cost_path_arr, short_path_arr, cur_in, min_in):
+    for i in reversed(list(range(cur_in+1))):
+        if cur_in >= 1:
+            min_new_in = min_in
+            min_val = cost_path_arr[cur_in - 1][min_in]
+            if min_in - 1 >= 0:
+                if cost_path_arr[cur_in - 1][min_in - 1] < min_val:
+                    min_new_in = min_in - 1
+                    min_val = cost_path_arr[cur_in - 1][min_in - 1]
+            if min_in + 1 < cost_path_arr.shape[1]:
+                if cost_path_arr[cur_in - 1][min_in + 1] < min_val:
+                    min_new_in = min_in + 1
+                    min_val = cost_path_arr[cur_in - 1][min_in + 1]
+            short_path_arr[cur_in - 1] = min_new_in
+            min_in = min_new_in
+
 def find_recursive_path(cost_path_arr, short_path_arr, cur_in, min_in):
     min_val = float('inf')
+    print('--------')
+    print(cur_in)
+    print('-------')
     min_new_in = -1
     if cur_in >= 1:
         min_new_in = min_in
@@ -163,6 +182,7 @@ def find_recursive_path(cost_path_arr, short_path_arr, cur_in, min_in):
         find_recursive_path(cost_path_arr, short_path_arr, cur_in - 1, min_new_in)
 
 
+
 def find_path_shortest(cost_path_arr, short_path_arr):
     min_cost = float('inf')
     min_index = -1
@@ -173,7 +193,9 @@ def find_path_shortest(cost_path_arr, short_path_arr):
             min_index = i
 
     short_path_arr[cost_path_arr.shape[0] - 1] = min_index
-    find_recursive_path(cost_path_arr, short_path_arr, cost_path_arr.shape[0] - 1, min_index)
+    #find_recursive_path(cost_path_arr, short_path_arr, cost_path_arr.shape[0] - 1, min_index)
+    dp_find_final_path(cost_path_arr, short_path_arr, cost_path_arr.shape[0] - 1, min_index)
+
 
 
 def path_search_dp(im, st, end):
@@ -260,7 +282,7 @@ def plot_word_segs(im, word_gaps):
 
 
 def extract_char_save_fold(short_path_arr, im, st, end_seg, line_num, word_num, x_min, x_max, path_present, scrol_name):
-    save_path = os.path.join(str(scrol_name), str(line_num), str(word_num))
+    save_path = os.path.join(str(scrol_name.split('.')[0]), str(line_num), str(word_num))
 
     if not os.path.exists(save_path):
         os.makedirs(save_path)
