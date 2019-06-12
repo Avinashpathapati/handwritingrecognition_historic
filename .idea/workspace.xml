@@ -2,17 +2,37 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="410406f1-b36d-47b1-a947-5724534a950c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/handwritingrecognition.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/classification/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/classification/classify.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/external_code/sauvola.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/extractor/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/extractor/extractor.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/preprocess/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/preprocess/preprocess.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/segmentation/final_segmentation.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/segmentation/graph_based.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/segmentation/water_flow.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/transcription/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/utility.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preprocessed.png" beforeDir="false" afterPath="$PROJECT_DIR$/preprocessed.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/recognizer/extractor.py" beforeDir="false" afterPath="$PROJECT_DIR$/recognizer/extractor.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/recognizer/utility.py" beforeDir="false" afterPath="$PROJECT_DIR$/recognizer/utility.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/result.png" beforeDir="false" afterPath="$PROJECT_DIR$/result.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/result_llp.png" beforeDir="false" afterPath="$PROJECT_DIR$/result_llp.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/result_llp_blur.png" beforeDir="false" afterPath="$PROJECT_DIR$/result_llp_blur.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/external_code/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/external_code/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/external_code/horizontal_profiling.py" beforeDir="false" afterPath="$PROJECT_DIR$/external_code/horizontal_profiling.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/external_code/path_finder_a_star.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/preprocessed.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/recognizer/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/recognizer/extractor.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/recognizer/preprocess.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/recognizer/recognize.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/recognizer/utility.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirments.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/result.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/result_llp.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/result_llp_blur.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/segmentation/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/segmentation/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/segmentation/line_segmentation.py" beforeDir="false" afterPath="$PROJECT_DIR$/segmentation/line_segmentation.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -26,10 +46,46 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="330">
-              <caret line="26" column="41" selection-start-line="26" selection-start-column="41" selection-end-line="26" selection-end-column="41" />
+            <state relative-caret-position="322">
+              <caret line="52" column="51" selection-start-line="52" selection-start-column="51" selection-end-line="52" selection-end-column="51" />
               <folding>
-                <element signature="e#0#51#0" expanded="true" />
+                <element signature="e#0#15#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/utility.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="300">
+              <caret line="20" selection-start-line="20" selection-end-line="20" />
+              <folding>
+                <element signature="e#0#16#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/segmentation/final_segmentation.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="171">
+              <caret line="148" column="26" lean-forward="true" selection-start-line="148" selection-start-column="26" selection-end-line="148" selection-end-column="26" />
+              <folding>
+                <element signature="e#24#40#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/segmentation/graph_based.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="180">
+              <caret line="12" column="3" selection-start-line="12" selection-start-column="3" selection-end-line="12" selection-end-column="3" />
+              <folding>
+                <element signature="e#0#16#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -38,54 +94,58 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/external_code/horizontal_profiling.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="345">
-              <caret line="26" column="19" selection-start-line="26" selection-start-column="19" selection-end-line="26" selection-end-column="19" />
+            <state relative-caret-position="45">
+              <caret line="3" column="5" selection-start-line="3" selection-start-column="5" selection-end-line="3" selection-end-column="5" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/preprocess/preprocess.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="270">
+              <caret line="21" column="17" selection-start-line="21" selection-start-column="17" selection-end-line="21" selection-end-column="17" />
               <folding>
-                <element signature="e#0#10#0" expanded="true" />
+                <element signature="e#86#102#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/recognizer/preprocess.py">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/recognizer/utility.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="90">
-              <caret line="12" column="57" selection-start-line="12" selection-start-column="57" selection-end-line="12" selection-end-column="57" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/segmentation/line_segmentation.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="315">
-              <caret line="44" column="52" lean-forward="true" selection-start-line="44" selection-start-column="52" selection-end-line="44" selection-end-column="52" />
+            <state relative-caret-position="120">
+              <caret line="8" column="8" selection-start-line="8" selection-start-column="8" selection-end-line="8" selection-end-column="8" />
               <folding>
-                <element signature="e#1#17#0" expanded="true" />
+                <element signature="e#0#51#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/external_code/path_finder_a_star.py">
+        <entry file="file://$PROJECT_DIR$/extractor/__init__.py">
           <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/recognizer/extractor.py">
+        <entry file="file://$PROJECT_DIR$/extractor/extractor.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="795">
-              <caret line="56" column="23" selection-start-line="56" selection-start-column="23" selection-end-line="56" selection-end-column="23" />
+            <state relative-caret-position="15">
+              <caret line="1" column="16" selection-start-line="1" selection-start-column="16" selection-end-line="1" selection-end-column="16" />
               <folding>
-                <element signature="e#0#78#0" expanded="true" />
+                <element signature="e#0#18#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/requirements.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="60">
+              <caret line="4" column="20" selection-start-line="4" selection-start-column="20" selection-end-line="4" selection-end-column="20" />
             </state>
           </provider>
         </entry>
@@ -105,6 +165,13 @@
       <find>plot</find>
       <find>self.</find>
       <find>a_s</find>
+      <find>plot_</find>
+      <find>random_color</find>
+      <find>show_color</find>
+      <find>save_opencv</find>
+      <find>probab</find>
+      <find>over_seg</find>
+      <find>maxint</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -116,12 +183,35 @@
         <option value="$PROJECT_DIR$/line_segmentation.py" />
         <option value="$PROJECT_DIR$/extractor.py" />
         <option value="$PROJECT_DIR$/preprocess.py" />
-        <option value="$PROJECT_DIR$/utility.py" />
-        <option value="$PROJECT_DIR$/external_code/horizontal_profiling.py" />
-        <option value="$PROJECT_DIR$/main.py" />
         <option value="$PROJECT_DIR$/recognizer/extractor.py" />
         <option value="$PROJECT_DIR$/recognizer/utility.py" />
+        <option value="$PROJECT_DIR$/.gitignore" />
+        <option value="$PROJECT_DIR$/preprocessing/__init__.py" />
+        <option value="$PROJECT_DIR$/preprocessing/extractor.py" />
+        <option value="$PROJECT_DIR$/preprocessing/preprocess.py" />
+        <option value="$PROJECT_DIR$/preprocess/__init__.py" />
+        <option value="$PROJECT_DIR$/preprocess/extractor.py" />
+        <option value="$PROJECT_DIR$/preprocess/utility.py" />
+        <option value="$PROJECT_DIR$/segmentation/character_segmentation.py" />
+        <option value="$PROJECT_DIR$/segmentation/__init__.py" />
+        <option value="$PROJECT_DIR$/segmentation/utility.py" />
+        <option value="$PROJECT_DIR$/transcription/__init__.py" />
+        <option value="$PROJECT_DIR$/classification/__init__.py" />
+        <option value="$PROJECT_DIR$/segmentation/word_segmentation.py" />
+        <option value="$PROJECT_DIR$/classification/classify.py" />
+        <option value="$PROJECT_DIR$/preprocess/external_code/sauvola.py" />
+        <option value="$PROJECT_DIR$/extractor/__init__.py" />
+        <option value="$PROJECT_DIR$/preprocess/external_code/__init__.py" />
+        <option value="$PROJECT_DIR$/preprocess/preprocess.py" />
+        <option value="$PROJECT_DIR$/segmentation/waterflow.py" />
         <option value="$PROJECT_DIR$/segmentation/line_segmentation.py" />
+        <option value="$PROJECT_DIR$/external_code/horizontal_profiling.py" />
+        <option value="$PROJECT_DIR$/segmentation/graph_based.py" />
+        <option value="$PROJECT_DIR$/requirements.txt" />
+        <option value="$PROJECT_DIR$/extractor/extractor.py" />
+        <option value="$PROJECT_DIR$/utility.py" />
+        <option value="$PROJECT_DIR$/main.py" />
+        <option value="$PROJECT_DIR$/segmentation/final_segmentation.py" />
       </list>
     </option>
   </component>
@@ -134,7 +224,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -145,17 +234,27 @@
             <path>
               <item name="handwritingrecognition" type="b2602c69:ProjectViewProjectNode" />
               <item name="handwritingrecognition" type="462c0819:PsiDirectoryNode" />
-              <item name="external_code" type="462c0819:PsiDirectoryNode" />
+              <item name="extractor" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="handwritingrecognition" type="b2602c69:ProjectViewProjectNode" />
               <item name="handwritingrecognition" type="462c0819:PsiDirectoryNode" />
-              <item name="recognizer" type="462c0819:PsiDirectoryNode" />
+              <item name="preprocess" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="handwritingrecognition" type="b2602c69:ProjectViewProjectNode" />
               <item name="handwritingrecognition" type="462c0819:PsiDirectoryNode" />
               <item name="segmentation" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="handwritingrecognition" type="b2602c69:ProjectViewProjectNode" />
+              <item name="handwritingrecognition" type="462c0819:PsiDirectoryNode" />
+              <item name="test_images" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="handwritingrecognition" type="b2602c69:ProjectViewProjectNode" />
+              <item name="handwritingrecognition" type="462c0819:PsiDirectoryNode" />
+              <item name="transcription" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="handwritingrecognition" type="b2602c69:ProjectViewProjectNode" />
@@ -165,13 +264,20 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/external_code" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -222,7 +328,7 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
-      <option name="PARAMETERS" value="" />
+      <option name="PARAMETERS" value="test_images" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
@@ -250,11 +356,19 @@
       <workItem from="1557402000340" duration="13323000" />
       <workItem from="1557950132936" duration="6606000" />
       <workItem from="1558450474896" duration="774000" />
+      <workItem from="1558528850340" duration="135000" />
+      <workItem from="1558611434573" duration="4115000" />
+      <workItem from="1558887604919" duration="30000" />
+      <workItem from="1559134182794" duration="3730000" />
+      <workItem from="1559567536495" duration="1312000" />
+      <workItem from="1560332608285" duration="469000" />
+      <workItem from="1560335538229" duration="3652000" />
+      <workItem from="1560341592112" duration="2953000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="25466000" />
+    <option name="totallyTimeSpent" value="41862000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -267,8 +381,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.27786753" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18739903" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -282,7 +397,7 @@
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.32876712" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
-      <window_info anchor="bottom" id="Terminal" order="11" weight="0.32876712" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="11" visible="true" weight="0.29178083" />
       <window_info anchor="bottom" id="Python Console" order="12" weight="0.32876712" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -295,7 +410,7 @@
     <option name="version" value="1" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/handwritingrecognition$main.coverage" NAME="main Coverage Results" MODIFIED="1558450731527" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/handwritingrecognition$main.coverage" NAME="main Coverage Results" MODIFIED="1558615800914" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$USER_HOME$/Library/Caches/PyCharm2019.1/python_stubs/1647528985/cv2/__init__.py">
@@ -309,56 +424,160 @@
     <entry file="file://$PROJECT_DIR$/line_segmentation.py" />
     <entry file="file://$PROJECT_DIR$/extractor.py" />
     <entry file="file://$PROJECT_DIR$/preprocess.py" />
-    <entry file="file://$PROJECT_DIR$/utility.py" />
-    <entry file="file://$PROJECT_DIR$/main.py">
+    <entry file="file://$PROJECT_DIR$/recognizer/preprocess.py" />
+    <entry file="file://$PROJECT_DIR$/recognizer/utility.py" />
+    <entry file="file://$PROJECT_DIR$/external_code/path_finder_a_star.py" />
+    <entry file="file://$PROJECT_DIR$/recognizer/extractor.py" />
+    <entry file="file://$PROJECT_DIR$/preprocessing/__init__.py" />
+    <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="26" column="41" selection-start-line="26" selection-start-column="41" selection-end-line="26" selection-end-column="41" />
-          <folding>
-            <element signature="e#0#51#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="60">
+          <caret line="4" column="10" selection-start-line="4" selection-start-column="10" selection-end-line="4" selection-end-column="10" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/external_code/horizontal_profiling.py">
+    <entry file="file://$PROJECT_DIR$/preprocessing/extractor.py" />
+    <entry file="file://$PROJECT_DIR$/preprocessing/preprocess.py" />
+    <entry file="file://$PROJECT_DIR$/preprocess/__init__.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/segmentation/character_segmentation.py" />
+    <entry file="file://$PROJECT_DIR$/segmentation/__init__.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/transcription/__init__.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/classification/__init__.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/segmentation/word_segmentation.py" />
+    <entry file="file://$PROJECT_DIR$/segmentation/utility.py" />
+    <entry file="file://$PROJECT_DIR$/external_code/sauvola.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="26" column="19" selection-start-line="26" selection-start-column="19" selection-end-line="26" selection-end-column="19" />
+        <state relative-caret-position="195">
+          <caret line="13" column="43" selection-start-line="13" selection-start-column="43" selection-end-line="13" selection-end-column="43" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/recognizer/preprocess.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/recognizer/utility.py">
+    <entry file="file:///anaconda3/envs/hwr/lib/python2.7/site-packages/skimage/filters/__init__.py" />
+    <entry file="file://$PROJECT_DIR$/preprocess/extractor.py" />
+    <entry file="file://$PROJECT_DIR$/classification/classify.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="12" column="57" selection-start-line="12" selection-start-column="57" selection-end-line="12" selection-end-column="57" />
+        <state relative-caret-position="360">
+          <caret line="24" selection-start-line="24" selection-end-line="24" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/external_code/path_finder_a_star.py">
+    <entry file="file://$PROJECT_DIR$/external_code/__init__.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/recognizer/extractor.py">
+    <entry file="file://$PROJECT_DIR$/segmentation/water_flow.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="795">
-          <caret line="56" column="23" selection-start-line="56" selection-start-column="23" selection-end-line="56" selection-end-column="23" />
+        <state relative-caret-position="413">
+          <caret line="432" selection-start-line="432" selection-end-line="432" />
           <folding>
-            <element signature="e#0#78#0" expanded="true" />
+            <element signature="e#0#16#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///anaconda3/envs/hwr/lib/python2.7/site-packages/skimage/transform/__init__.py" />
+    <entry file="file://$PROJECT_DIR$/preprocess/preprocess.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="21" column="17" selection-start-line="21" selection-start-column="17" selection-end-line="21" selection-end-column="17" />
+          <folding>
+            <element signature="e#86#102#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/extractor/__init__.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$USER_HOME$/Library/Caches/PyCharm2019.1/python_stubs/-1162531261/sklearn/linear_model/__init__.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/segmentation/graph_based.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="12" column="3" selection-start-line="12" selection-start-column="3" selection-end-line="12" selection-end-column="3" />
+          <folding>
+            <element signature="e#0#16#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/preprocess/utility.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/requirements.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="20" selection-start-line="4" selection-start-column="20" selection-end-line="4" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/external_code/horizontal_profiling.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="3" column="5" selection-start-line="3" selection-start-column="5" selection-end-line="3" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/extractor/extractor.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" column="16" selection-start-line="1" selection-start-column="16" selection-end-line="1" selection-end-column="16" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/utility.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="20" selection-start-line="20" selection-end-line="20" />
+          <folding>
+            <element signature="e#0#16#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="322">
+          <caret line="52" column="51" selection-start-line="52" selection-start-column="51" selection-end-line="52" selection-end-column="51" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/segmentation/line_segmentation.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="44" column="52" lean-forward="true" selection-start-line="44" selection-start-column="52" selection-end-line="44" selection-end-column="52" />
+        <state relative-caret-position="120">
+          <caret line="8" column="8" selection-start-line="8" selection-start-column="8" selection-end-line="8" selection-end-column="8" />
           <folding>
-            <element signature="e#1#17#0" expanded="true" />
+            <element signature="e#0#51#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/segmentation/final_segmentation.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="171">
+          <caret line="148" column="26" lean-forward="true" selection-start-line="148" selection-start-column="26" selection-end-line="148" selection-end-column="26" />
+          <folding>
+            <element signature="e#24#40#0" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -1,47 +1,60 @@
-from recognizer.extractor import ExtractorByOpening
-from recognizer.preprocess import preprocess_single, preprocess
-from recognizer.utility import *
-from segmentation.line_segmentation import LineSementation
-import cv2 as cv
+import argparse
+from utility import *
+from extractor.extractor import ExtractorByOpening
+from preprocess.preprocess import *
+from segmentation.final_segmentation import *
+from segmentation.line_segmentation import LineSegmentation
+
+parameters = {
+    'extractor_kernel': [20],
+    'preprocess_kernel': [3],
+    'whiten_background_kernel': [10],
+    'binarization_threshold': [25]
+}
 
 
-if __name__ == '__main__':
-	extractor = ExtractorByOpening(20)
-	img_and_mask=extractor.testing_start()
-	#plot_opencv(img_and_mask[0])
+def intro():
+    print("""
+    .=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-.
+    |                     ______                     |
+    |                  .-"      "-.                  |
+    |                 /            \                 |
+    |     _          |              |          _     |
+    |    ( \         |,  .-.  .-.  ,|         / )    |
+    |     > "=._     | )(__/  \__)( |     _.=" <     |
+    |    (_/"=._"=._ |/     /\     \| _.="_.="\_)    |
+    |           "=._"(_     ^^     _)"_.="           |
+    |               "=\__|IIIIII|__/="               |
+    |              _.="| \IIIIII/ |"=._              |
+    |    _     _.="_.="\          /"=._"=._     _    |
+    |   ( \_.="_.="     `--------`     "=._"=._/ )   |
+    |    > _.="                            "=._ <    |
+    |   (_/       PIRATES OF THE DEAD SEA      \_)   |
+    |                                                |
+    '-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-='""")
 
-	#extractor = ExtractorByOpening(50)
-	#img_and_mask=extractor.extract_text(img_and_mask[0])
 
-	img=preprocess(data=[img_and_mask])
-	cv.imwrite('preprocessed.png',img[0])
-	img_resized = image_resize(img[0], height=800)
-	#mg=preprocess(data=[img_and_mask])
+def main():
+    intro()
+
+    parser = argparse.ArgumentParser(description='This program performs automatic handwriting recognition on images of the Dead Sea scrolls.')
+    parser.add_argument('image_path', help='The path of the folder containing the images to be used.')
+    args = parser.parse_args()
+
+    data, names = load_data(args.image_path)
+    extractor = ExtractorByOpening(20)
+    data = [extractor.extract_text(x) for x in data]
+
+    data = preprocess(data)
+
+    i = 0
+    for img in data:
+        line_segmentation = LineSegmentation()
+        img, line_images = line_segmentation.segment_lines(img)
+        name = names[i]
+        i += 1
+        over_seg_and_graph(line_images, name)
 
 
-
-	#plot_matplotlib(img[0])
-	# plot_opencv(img_resized)
-	#plot_opencv(img_and_mask[1])
-
-	line_segmentation = LineSementation()
-	line_segmentation.test_segmentation(img[0])
-
-	#preprocess_single()
-
-	#"""
-	# [Temporary] Saving the images to inspect.
-	# extractor = ExtractorByOpening(20)
-	# data = load_data('/home/anpenta/Desktop/handwriting-recognizer/data/image-data')
-	# data = [extractor.extract_text(x) for x in data]
-	# data = preprocess(data)
-	#
-	# import os
-	# if not os.path.exists("../output"):
-	# 	os.makedirs("../output")
-	# i = 0
-	# for image in data:
-	# 	#plot_histogram(image)
-	# 	save_opencv(image, '../output/', str(i) + '.jpg')
-	# 	i += 1
-	#"""
+if __name__=='__main__':
+    main()
