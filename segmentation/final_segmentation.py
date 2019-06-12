@@ -29,15 +29,16 @@ def clean_img(image):
     kernel_dil = np.ones((kernel_dil_size, kernel_dil_size), np.uint8)
     dilation = cv.dilate(image, kernel_dil, iterations=5)
     # find all your connected components (white blobs in your image)
+    # print(image.shape)
     nb_components, output, stats, centroids = cv.connectedComponentsWithStats(dilation, connectivity=8)
     sizes = stats[1:, -1];
     nb_components = nb_components - 1
 
-    # minimum size of particles we want to keep (number of pixels)
-    # here, it's a fixed value, but you can set it as you want, eg the mean of the sizes or whatever
-    min_size = 150
+    # # minimum size of particles we want to keep (number of pixels)
+    # # here, it's a fixed value, but you can set it as you want, eg the mean of the sizes or whatever
+    # min_size = 150
 
-    # your answer image
+    # # your answer image
     img2 = np.zeros((output.shape))
     # for every component in the image, you keep it only if it's above min_size
     for i in range(0, nb_components):
@@ -282,7 +283,7 @@ def plot_word_segs(im, word_gaps):
 
 
 def extract_char_save_fold(short_path_arr, im, st, end_seg, line_num, word_num, x_min, x_max, path_present, scrol_name):
-    save_path = os.path.join(str(scrol_name.split('.')[0]), str(line_num), str(word_num))
+    save_path = os.path.join('tmp',str(scrol_name.split('.')[0]), str(line_num), str(word_num))
 
     if not os.path.exists(save_path):
         os.makedirs(save_path)
@@ -302,14 +303,14 @@ def extract_char_save_fold(short_path_arr, im, st, end_seg, line_num, word_num, 
         #   for i in range(0,len(short_path_arr)-1):
         #     char_im[i,0:short_path_arr[i]+1] = im[i,st:st+short_path_arr[i]+1]
 
-        cv.imwrite(os.path.join(save_path, 'char_' + str(st) + str(st + end) + str(x_min) + str(x_max) + '.png'),
+        cv.imwrite(os.path.join(save_path, 'char_' + 'col_st_'+str(st) + '_col_end_'+str(st + end) + '_row_st_'+str(x_min) + '_row_end_'+str(x_max) + '.png'),
                    char_im)
         cv.imwrite(
-            os.path.join(save_path, 'char_' + str(st_2_seg) + str(end_seg - 1) + str(x_min) + str(x_max) + '.png'),
+            os.path.join(save_path, 'char_' +'col_st_'+str(st_2_seg) + '_col_end_'+str(end_seg - 1) + '_row_st_'+str(x_min) + '_row_end_'+str(x_max) + '.png'),
             char_im2)
     else:
         char_im = im[0:x_max, st:end_seg]
-        cv.imwrite(os.path.join(save_path, 'char_' + str(st) + str(end_seg) + str(x_min) + str(x_max) + '.png'),
+        cv.imwrite(os.path.join(save_path, 'char_' + 'col_st_'+str(st) + '_col_end_'+str(end_seg) + '_row_st_'+str(x_min) + '_row_end_'+str(x_max) + '.png'),
                    char_im)
 
 
@@ -324,8 +325,10 @@ def over_seg_and_graph(images, scrol_name):
         im_ct = im_ct + 1;
         print('started processing line ', str(im_ct))
         # Invert
-        im = 255 - im
-        # im = clean_img(im)
+        im.astype(int)
+        im[im==1] = 0
+        #im = 255 - im
+        #im = clean_img(im)
         # Calculate vertical projection
         proj = np.sum(im, 0)
         # Calculate horizontal projection
@@ -359,7 +362,7 @@ def over_seg_and_graph(images, scrol_name):
         #   print('hell')
         #   word_len_lst.append((word_end-word_st+1)**2)
         # Save result
-        # plot_word_segs(im, word_loc)
+        plot_word_segs(im, word_loc)
         seg_st = -1
         cur_word_num = 0
         char_seg_col_new = []
@@ -379,12 +382,13 @@ def over_seg_and_graph(images, scrol_name):
                 if (char_seg_col[i - 1] + short_path_arr[len(short_path_arr) / 2]) - char_seg_col[i - 1] > 30:
                     # draw_cv_line(short_path_arr,im,char_seg_col[i-1])
                     extract_char_save_fold(short_path_arr, im, char_seg_col[i - 1], char_seg_col[i] + 1, im_ct,
-                                           cur_word_num + 1, 0, im.shape[0], True, scrol_name)
+                                           (len(word_gaps) - cur_word_num)+1 , 0, im.shape[0], True, scrol_name)
                 else:
                     extract_char_save_fold(short_path_arr, im, char_seg_col[i - 1], char_seg_col[i] + 1, im_ct,
-                                           cur_word_num + 1, 0, im.shape[0], False, scrol_name)
+                                           (len(word_gaps) - cur_word_num)+1 , 0, im.shape[0], False, scrol_name)
 
         print('finished processing line ', str(im_ct))
+        cv.imwrite('word_seg_'+str(scrol_name)+str(im_ct)+'.png', im)
 
     print('finished processing scrol ', str(scrol_name))
     # multi_stage_graph(0, 3, graph)
@@ -404,7 +408,7 @@ def over_seg_and_graph(images, scrol_name):
     #   print(seg_end)
     #   print('----------')
     # seg_st = seg_col
-    # cv.imwrite('word_seg_'+str(im_ct)+'.png', im)
+    
 
 
 def word_seg(image, w_cntr, g_cntr, w_u_orig, g_u_orig):
@@ -430,6 +434,15 @@ def word_seg(image, w_cntr, g_cntr, w_u_orig, g_u_orig):
         #   word_len_lst.append((word_end-word_st+1)**2)
         # Save result
         cv.imwrite('word_seg_' + str(ct) + '.png', im)
+
+
+# image_data = load_data('/Users/sandy/Downloads/heb-crop', 'line')
+# short_path_arr = []
+# cost = sys.maxint
+# if not len(image_data) == 0:
+#   over_seg_and_graph(image_data,"a")
+# else:
+#   print('no images found')
 
 
 
