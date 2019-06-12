@@ -13,7 +13,7 @@ from segmentation.water_flow import WaterFlow
 import matplotlib.pyplot as plt
 from external_code.horizontal_profiling import projection_analysis
 
-class LineSementation():
+class LineSegmentation():
 	def __init__(self):
 		pass
 

@@ -1,7 +1,7 @@
 from recognizer.extractor import ExtractorByOpening
 from recognizer.preprocess import preprocess
 from recognizer.utility import *
-from segmentation.line_segmentation import LineSementation
+from segmentation.line_segmentation import LineSegmentation
 import os
 
 def start():
@@ -19,7 +19,7 @@ def start():
 
 	data_new=[]
 	for img in data:
-		line_segmentation = LineSementation()
+		line_segmentation = LineSegmentation()
 		img,line_images=line_segmentation.segment_lines(img)
 		name = names[i]
 		data_new.append(img)
