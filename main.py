@@ -7,7 +7,7 @@ import os
 def start():
 	input_dir= '../data/test/tmpsingle'
 	output_dir = '../output4'
-	data = load_data(input_dir)
+	data,names = load_data(input_dir)
 	extractor = ExtractorByOpening(20)
 	data = [extractor.extract_text(x) for x in data]
 	data = preprocess(data)
@@ -21,6 +21,7 @@ def start():
 	for img in data:
 		line_segmentation = LineSementation()
 		img,line_images=line_segmentation.segment_lines(img)
+		name = names[i]
 		data_new.append(img)
 		save_opencv(img,output_dir, str(i) + '.jpg')
 		i += 1

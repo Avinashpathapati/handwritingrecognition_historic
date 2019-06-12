@@ -57,6 +57,7 @@ def get_input_arguments():
 def load_data(path):
   print("loading images...")
   data = []
+  names = []
 
   # Load the grayscale images into the data list.
   path = path + "/"
@@ -64,8 +65,9 @@ def load_data(path):
     if "fused" in str(file):
       image = cv.imread(path + str(file), cv.IMREAD_GRAYSCALE)
       data.append(image)
+      names.append(str(file))
 
-  return data
+  return data,names
 
 def load_single_image(image_path,image_name,load_greyscale=False):
   img = image_path + str(image_name)
