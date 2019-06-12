@@ -270,7 +270,7 @@ def plot_word_segs(im,word_gaps):
 
 def extract_char_save_fold(short_path_arr,im,st,end_seg,line_num,word_num,x_min,x_max,path_present,scrol_name):
 
-  save_path = os.path.join(str(scrol_name),str(line_num),str(word_num))
+  save_path = os.path.join('tmp',str(scrol_name),str(line_num),str(word_num))
 
   if not os.path.exists(save_path):
     os.makedirs(save_path)
