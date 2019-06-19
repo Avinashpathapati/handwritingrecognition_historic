@@ -5,19 +5,7 @@ import numpy as np
 import math
 import sys
 import os
-
-
-def show_proj(proj, shape):
-    # Create output image same height as text, 500 px wide
-    m = np.max(proj)
-    w = 500
-    result = np.zeros((proj.shape[0], 500))
-
-    # Draw a line for each col
-    for col in range(shape[1]):
-        cv.line(result, (col, 0), (col, int(proj[col] * w / m)), (255, 255, 255), 1)
-    # Save result
-    cv.imwrite('result.png', result)
+#from utility import load_data
 
 
 def clean_img(image):
@@ -86,6 +74,23 @@ def proj_sum_zero(proj_new, st, end):
     return True
 
 
+def find_left_right_start(proj,st,end):
+    left = 0
+    right = proj.shape[0] -1
+
+    for i in range(st,end):
+        if not proj[i] == 0:
+            left = i
+            break
+
+    for i in reversed(list(range(st,end))):
+        if not proj[i] == 0:
+            right = i
+            break
+
+
+    return left,right
+
 def find_min_cur_level(im, cur_depth, st, end):
     min_val = float('inf')
     min_x = -1
@@ -148,25 +153,23 @@ def gap_stats_and_word_lengths(proj):
 
 def dp_find_final_path(cost_path_arr, short_path_arr, cur_in, min_in):
     for i in reversed(list(range(cur_in+1))):
-        if cur_in >= 1:
+        if i >= 1:
             min_new_in = min_in
-            min_val = cost_path_arr[cur_in - 1][min_in]
+            min_val = cost_path_arr[i - 1][min_in]
             if min_in - 1 >= 0:
-                if cost_path_arr[cur_in - 1][min_in - 1] < min_val:
+                if cost_path_arr[i - 1][min_in - 1] < min_val:
                     min_new_in = min_in - 1
-                    min_val = cost_path_arr[cur_in - 1][min_in - 1]
+                    min_val = cost_path_arr[i - 1][min_in - 1]
             if min_in + 1 < cost_path_arr.shape[1]:
-                if cost_path_arr[cur_in - 1][min_in + 1] < min_val:
+                if cost_path_arr[i - 1][min_in + 1] < min_val:
                     min_new_in = min_in + 1
-                    min_val = cost_path_arr[cur_in - 1][min_in + 1]
-            short_path_arr[cur_in - 1] = min_new_in
+                    min_val = cost_path_arr[i - 1][min_in + 1]
+            short_path_arr[i - 1] = min_new_in
             min_in = min_new_in
+
 
 def find_recursive_path(cost_path_arr, short_path_arr, cur_in, min_in):
     min_val = float('inf')
-    print('--------')
-    print(cur_in)
-    print('-------')
     min_new_in = -1
     if cur_in >= 1:
         min_new_in = min_in
@@ -201,6 +204,7 @@ def find_path_shortest(cost_path_arr, short_path_arr):
 
 def path_search_dp(im, st, end):
     short_path_arr = [-1] * im.shape[0]
+
     cost_path_arr = np.full((im.shape[0], (end - st) + 1), float('inf'))
 
     for x in range(0, cost_path_arr.shape[0]):
@@ -217,9 +221,8 @@ def path_search_dp(im, st, end):
 
                 cost_path_arr[x][y] = cost_path_arr[x][y] + im[x][st + y]
 
-    # print(cost_path_arr)
     find_path_shortest(cost_path_arr, short_path_arr)
-    # print(short_path_arr)
+    #print(short_path_arr)
     return short_path_arr
 
     # for y in range(0, cost_path_arr.shape[0]):
@@ -254,7 +257,7 @@ def multi_stage_graph(st, end, im):
     # Mark all the vertices as not visited
     # depth_min_cost = [sys] * im.shape[0]+1
     # depth_min_path = [-1] * im.shape[0]+1
-    global cost, min_cost_path_arr
+    #global cost, min_cost_path_arr
     min_each_path_cost = float('inf')
     # for v in range(st, end):
     #   #dist, cost =rec_path_search(im,v,0,st, end,depth_min_cost,depth_min_path,im[v][0])
@@ -288,7 +291,7 @@ def extract_char_save_fold(short_path_arr, im, st, end_seg, line_num, word_num, 
     if not os.path.exists(save_path):
         os.makedirs(save_path)
 
-    if path_present:
+    if path_present:        
         end = st + max(short_path_arr)
         st_2_seg = st + min(short_path_arr)
         char_im = np.zeros((x_max, end - st + 1), dtype=int)
@@ -302,13 +305,25 @@ def extract_char_save_fold(short_path_arr, im, st, end_seg, line_num, word_num, 
         #   print(char_im)
         #   for i in range(0,len(short_path_arr)-1):
         #     char_im[i,0:short_path_arr[i]+1] = im[i,st:st+short_path_arr[i]+1]
+        # print('-----------extract')
+        # print(st)
+        # print(end)
+        # print(st_2_seg)
+        # print(end_seg-1)
+        # print(max(short_path_arr))
 
-        cv.imwrite(os.path.join(save_path, 'char_' + 'col_st_'+str(st) + '_col_end_'+str(st + end) + '_row_st_'+str(x_min) + '_row_end_'+str(x_max) + '.png'),
+        # print('---------')
+
+        cv.imwrite(os.path.join(save_path, 'char_' + 'col_st_'+str(st) + '_col_end_'+str(end) + '_row_st_'+str(x_min) + '_row_end_'+str(x_max) + '.png'),
                    char_im)
         cv.imwrite(
             os.path.join(save_path, 'char_' +'col_st_'+str(st_2_seg) + '_col_end_'+str(end_seg - 1) + '_row_st_'+str(x_min) + '_row_end_'+str(x_max) + '.png'),
             char_im2)
     else:
+        # print('-----------extract no path')
+        # print(st)
+        # print(end_seg)
+        # print('---------')
         char_im = im[0:x_max, st:end_seg]
         cv.imwrite(os.path.join(save_path, 'char_' + 'col_st_'+str(st) + '_col_end_'+str(end_seg) + '_row_st_'+str(x_min) + '_row_end_'+str(x_max) + '.png'),
                    char_im)
@@ -318,7 +333,7 @@ def over_seg_and_graph(images, scrol_name):
     # computing the gap statistics
     # Load as greyscale
     im_ct = 0
-    gap_th = 20
+    gap_th = 40
     print('started processing scrol ', str(scrol_name))
     for im in images:
         char_seg_col = []
@@ -331,12 +346,14 @@ def over_seg_and_graph(images, scrol_name):
         #im = clean_img(im)
         # Calculate vertical projection
         proj = np.sum(im, 0)
+        #finding left right extreme as computing mean directly on the image returning very less value
+        left,right = find_left_right_start(proj,0,proj.shape[0])
         # Calculate horizontal projection
         h_proj = np.sum(im, 1)
         y_min, y_max = find_y_loc_seg(h_proj)
         word_gaps, word_loc = gap_stats_and_word_lengths(proj)
 
-        proj_val = 0.34 * np.mean(proj)
+        proj_val = 0.50 * np.mean(proj[left:right+1])
         th_val = proj_val
         gap_min_ind = 0
         for i in range(1, len(word_loc), 2):
@@ -344,13 +361,23 @@ def over_seg_and_graph(images, scrol_name):
             w_end = word_loc[i]
             cur_seg_gap = w_st
             char_seg_col.append(w_st)
-            for j in range(w_st, w_end):
-                if proj[j] < th_val and (j - cur_seg_gap) >= gap_th and (w_end - j) >= gap_th:
+            j=w_st
+            while j in range(w_st, w_end):
+                if proj[j] < th_val and (j - cur_seg_gap) >= gap_th: #and (w_end - j) >= gap_th:
                     char_seg_col.append(j)
-                    char_seg_col.append(j)
-                    cur_seg_gap = j
+                    index_skip_zeros = j+1
+                    for k in range(j+1,w_end):
+                        if not proj[k] == 0:
+                            index_skip_zeros = k
+                            break;
+                    char_seg_col.append(index_skip_zeros)
+                    cur_seg_gap = index_skip_zeros
+                    j = index_skip_zeros
+                else:
+                    j = j+1
             char_seg_col.append(w_end)
 
+        
         # for i,vp_val in enumerate(proj):
         #   if vp_val < th_val:
         #     if (i - gap_min_ind) >= gap_th:
@@ -362,7 +389,7 @@ def over_seg_and_graph(images, scrol_name):
         #   print('hell')
         #   word_len_lst.append((word_end-word_st+1)**2)
         # Save result
-        plot_word_segs(im, word_loc)
+        #plot_word_segs(im, word_loc)
         seg_st = -1
         cur_word_num = 0
         char_seg_col_new = []
@@ -376,16 +403,31 @@ def over_seg_and_graph(images, scrol_name):
                 cost = float('inf')
                 # cv.line(im, (char_seg_col[i-1],y_min), (char_seg_col[i-1], y_max), (255,0,0), 1)
                 # cv.line(im, (char_seg_col[i],y_min), (char_seg_col[i], y_max), (255,0,0), 1)
-
-                short_path_arr = multi_stage_graph(char_seg_col[i - 1], char_seg_col[i] + 1, im)
-                # short_path_arr = multi_stage_graph(char_seg_col[i-1], char_seg_col[i]+1, im,y_min,y_max)
-                if (char_seg_col[i - 1] + short_path_arr[len(short_path_arr) / 2]) - char_seg_col[i - 1] > 30:
-                    # draw_cv_line(short_path_arr,im,char_seg_col[i-1])
+                if char_seg_col[i] -5 > char_seg_col[i-1]:
+                    # print('-----------before extract')
+                    # print(char_seg_col[i-1])
+                    # print(char_seg_col[i])
+                    # print('---------')
+                    short_path_arr = multi_stage_graph(char_seg_col[i - 1], char_seg_col[i] -5, im)
                     extract_char_save_fold(short_path_arr, im, char_seg_col[i - 1], char_seg_col[i] + 1, im_ct,
                                            (len(word_gaps) - cur_word_num)+1 , 0, im.shape[0], True, scrol_name)
-                else:
+                    #draw_cv_line(short_path_arr,im,char_seg_col[i-1])
+                else :
+                    short_path_arr = []
                     extract_char_save_fold(short_path_arr, im, char_seg_col[i - 1], char_seg_col[i] + 1, im_ct,
                                            (len(word_gaps) - cur_word_num)+1 , 0, im.shape[0], False, scrol_name)
+
+                
+                cv.line(im, (char_seg_col[i],0), (char_seg_col[i], im.shape[0]), (255,0,0), 1)
+
+                # short_path_arr = multi_stage_graph(char_seg_col[i-1], char_seg_col[i]+1, im,y_min,y_max)
+                #if (char_seg_col[i - 1] + short_path_arr[len(short_path_arr) / 2]) - char_seg_col[i - 1] > 30:
+                    # draw_cv_line(short_path_arr,im,char_seg_col[i-1])
+                #extract_char_save_fold(short_path_arr, im, char_seg_col[i - 1], char_seg_col[i] + 1, im_ct,
+                                           #(len(word_gaps) - cur_word_num)+1 , 0, im.shape[0], True, scrol_name)
+                #else:
+                    #extract_char_save_fold(short_path_arr, im, char_seg_col[i - 1], char_seg_col[i] + 1, im_ct,
+                                           #(len(word_gaps) - cur_word_num)+1 , 0, im.shape[0], False, scrol_name)
 
         print('finished processing line ', str(im_ct))
         cv.imwrite('word_seg_'+str(scrol_name)+str(im_ct)+'.png', im)
@@ -436,7 +478,7 @@ def word_seg(image, w_cntr, g_cntr, w_u_orig, g_u_orig):
         cv.imwrite('word_seg_' + str(ct) + '.png', im)
 
 
-# image_data = load_data('/Users/sandy/Downloads/heb-crop', 'line')
+# image_data = load_data('/Users/sandy/Downloads/heb-crop', 'word')
 # short_path_arr = []
 # cost = sys.maxint
 # if not len(image_data) == 0:
