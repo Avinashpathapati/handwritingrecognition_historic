@@ -1,24 +1,27 @@
+# Classify module
+# Author: Andreas Pentaliotis
+# Module to implement character classification.
+
 from keras.models import load_model
 from keras.preprocessing.image import ImageDataGenerator
-import numpy as np
+import os
+
+from utility import load_images, make_predictions, analyze, save, listdir_nohidden
+from classification.preprocessing import preprocess
 
 
-class CNN:
-    def __init__(self, model_path):
-        self.model = load_model(model_path)
+def classify(scrolls_path):
+    cnn = load_model("./classification/models/cnn.h5")
+    generator = ImageDataGenerator(zoom_range=0.1, width_shift_range=0.1, height_shift_range=0.1, rotation_range=5)
+    for scroll_folder in listdir_nohidden(scrolls_path):
+        for line_directory in listdir_nohidden(scroll_folder):
+            for word_directory in listdir_nohidden(line_directory):
+                # Load and preprocess the images.
+                images, filenames = load_images(word_directory)
+                images = preprocess(images)
 
-    def make_predictions(self, images, generator=None):
-        if generator is None:
-            predictions = self.model.predict(images)
-        else:
-            # Make the predictions by performing test time data augmentation using the given generator. For
-            # this to make sense the model should have been trained with the same generator.
-            predictions = []
-            for _ in range(20):
-                current_predictions = self.model.predict_generator(generator.flow(
-                    images, batch_size=1, shuffle=False
-                ), steps=images.shape[0])
-                predictions.append(current_predictions)
-            predictions = np.mean(predictions, axis=0)
+                predictions = make_predictions(cnn, images, generator=generator)
 
-        return predictions
+                analyzed_predictions = analyze(predictions, filenames)
+                word_path = word_directory.split(".png")[0]
+                save(analyzed_predictions, word_path)
