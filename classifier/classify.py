@@ -11,13 +11,19 @@ from utility import load_images, parse_input_arguments, make_predictions, analyz
 from preprocessing import preprocess
 
 
-scrolls_path = "/home/anpenta/Desktop/character-transcription/handwritingrecognition/test"
+scrolls_path = "/home/anpenta/Desktop/character-transcription/handwritingrecognition/tmp"
 
 cnn = load_model("/home/anpenta/Desktop/character-classifier/handwritingrecognition/cnn-data-augmentation/final-model/cnn.h5")
 generator = ImageDataGenerator(zoom_range=0.1, width_shift_range=0.1, height_shift_range=0.1, rotation_range=5)
 for scroll_folder in os.listdir(scrolls_path):
+  if (str(scroll_folder).startswith('.')):
+    continue
   for line_directory in os.listdir(scrolls_path + "/" + scroll_folder + "/"):
+    if (str(line_directory).startswith('.')):
+      continue
     for word_directory in os.listdir(scrolls_path + "/" + scroll_folder + "/" + line_directory + "/"):
+      if (str(word_directory).startswith('.')):
+        continue
       word_path = scrolls_path + "/" + scroll_folder + "/" + line_directory + "/" + word_directory + "/"
 
       # Load and preprocess the images.
