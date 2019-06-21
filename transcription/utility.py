@@ -24,6 +24,8 @@ def transcribe_scrolls(scrolls_path, output_path):
   print("transcribing scrolls to " + output_path)
 
   for scroll_folder in os.listdir(scrolls_path):
+    if (str(scroll_folder).startswith('.')):
+      continue
     transcribe_scroll(scrolls_path + "/" + scroll_folder, output_path)
 
 
@@ -58,11 +60,15 @@ def transcribe_scroll(scroll_path, output_path):
 
   document = Document()
   
-  for line_directory in os.listdir(scroll_path + "/"):
+  for line_directory in sorted(os.listdir(scroll_path + "/")):
+    if (str(line_directory).startswith('.')):
+      continue
     paragraph = document.add_paragraph()
     paragraph.alignment = WD_ALIGN_PARAGRAPH.RIGHT
     run = paragraph.add_run()
-    for word_directory in os.listdir(scroll_path + "/" + line_directory + "/"):
+    for word_directory in sorted(os.listdir(scroll_path + "/" + line_directory + "/")):
+      if (str(word_directory).startswith('.')):
+        continue
       predictions = load_predictions(scroll_path + "/" + line_directory + "/" + word_directory + "/")
       word = [x for x in predictions["labels"]]
       for label in word[::-1]:
