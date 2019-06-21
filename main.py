@@ -50,11 +50,11 @@ def main():
 
     i = 0
     for img in data:
-        line_segmentation = LineSegmentation()
-        img, line_images = line_segmentation.segment_lines(img)
+        # line_segmentation = LineSegmentation()
+        # img, line_images = line_segmentation.segment_lines(img)
         name = names[i]
         i += 1
-        over_seg_and_graph(line_images, name)
+        # over_seg_and_graph(line_images, name)
         classify('./tmp')
         transcribe_scrolls('./tmp', './output')
 

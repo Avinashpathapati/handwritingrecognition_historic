@@ -22,7 +22,9 @@ def transcribe_scrolls(scrolls_path, output_path):
         os.mkdir(output_path)
     print("transcribing scrolls to " + output_path)
 
-    for scroll_folder in listdir_nohidden(scrolls_path):
+    for scroll_folder in os.listdir(scrolls_path):
+        if(str(scroll_folder).startswith('.')):
+            continue
         transcribe_scroll(scrolls_path + "/" + scroll_folder, output_path)
 
 
@@ -56,12 +58,16 @@ def transcribe_scroll(scroll_path, output_path):
                 'Zayin': 'ז'}
 
     document = Document()
-    for line_directory in listdir_nohidden(scroll_path):
+    for line_directory in sorted(os.listdir(scroll_path + "/")):
+        if (str(line_directory).startswith('.')):
+            continue
         paragraph = document.add_paragraph()
         paragraph.alignment = WD_ALIGN_PARAGRAPH.RIGHT
         run = paragraph.add_run()
-        for word_directory in listdir_nohidden(line_directory):
-            predictions = load_predictions(word_directory)
+        for word_directory in sorted(os.listdir(scroll_path + "/" + line_directory + "/")):
+            if(str(word_directory).startswith('.')):
+                continue
+            predictions = load_predictions(scroll_path + "/" + line_directory + "/" + word_directory + "/")
             word = [x for x in predictions["labels"]]
             for label in word[::-1]:
                 if (label not in char_map):
