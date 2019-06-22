@@ -4,7 +4,8 @@ from extractor.extractor import ExtractorByOpening
 from preprocess.preprocess import *
 from segmentation.final_segmentation import *
 from segmentation.line_segmentation import LineSegmentation
-
+from classification.classify import classify
+from transcription.transcribe import transcribe_scrolls
 parameters = {
     'extractor_kernel': [20],
     'preprocess_kernel': [3],
@@ -49,11 +50,13 @@ def main():
 
     i = 0
     for img in data:
-        line_segmentation = LineSegmentation()
-        img, line_images = line_segmentation.segment_lines(img)
+        # line_segmentation = LineSegmentation()
+        # img, line_images = line_segmentation.segment_lines(img)
         name = names[i]
         i += 1
-        over_seg_and_graph(line_images, name)
+        # over_seg_and_graph(line_images, name)
+        classify('./tmp')
+        transcribe_scrolls('./tmp', './output')
 
 
 if __name__=='__main__':

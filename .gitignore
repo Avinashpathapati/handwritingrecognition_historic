@@ -3,3 +3,16 @@ __pycache__/*
 *.swp
 .idea/
 *.DS_Store
+/test_images
+/output
+/tmp
+word_seg_1_test.jpg1.png
+word_seg_1_test.jpg10.png
+word_seg_1_test.jpg2.png
+word_seg_1_test.jpg3.png
+word_seg_1_test.jpg4.png
+word_seg_1_test.jpg5.png
+word_seg_1_test.jpg6.png
+word_seg_1_test.jpg7.png
+word_seg_1_test.jpg8.png
+word_seg_1_test.jpg9.png
