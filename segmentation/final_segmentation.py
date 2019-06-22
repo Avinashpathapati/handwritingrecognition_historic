@@ -313,10 +313,11 @@ def extract_char_save_fold(short_path_arr, im, st, end_seg, line_num, word_num, 
         # print(max(short_path_arr))
 
         # print('---------')
-
-        cv.imwrite(os.path.join(save_path, 'char_' + 'col_st_'+str(st) + '_col_end_'+str(end) + '_row_st_'+str(x_min) + '_row_end_'+str(x_max) + '.png'),
+        if not st == end:
+            cv.imwrite(os.path.join(save_path, 'char_' + 'col_st_'+str(st) + '_col_end_'+str(end) + '_row_st_'+str(x_min) + '_row_end_'+str(x_max) + '.png'),
                    char_im)
-        cv.imwrite(
+        if not st_2_seg == end_seg:
+            cv.imwrite(
             os.path.join(save_path, 'char_' +'col_st_'+str(st_2_seg) + '_col_end_'+str(end_seg - 1) + '_row_st_'+str(x_min) + '_row_end_'+str(x_max) + '.png'),
             char_im2)
     else:
@@ -325,7 +326,8 @@ def extract_char_save_fold(short_path_arr, im, st, end_seg, line_num, word_num, 
         # print(end_seg)
         # print('---------')
         char_im = im[0:x_max, st:end_seg]
-        cv.imwrite(os.path.join(save_path, 'char_' + 'col_st_'+str(st) + '_col_end_'+str(end_seg) + '_row_st_'+str(x_min) + '_row_end_'+str(x_max) + '.png'),
+        if not st == end_seg:
+            cv.imwrite(os.path.join(save_path, 'char_' + 'col_st_'+str(st) + '_col_end_'+str(end_seg) + '_row_st_'+str(x_min) + '_row_end_'+str(x_max) + '.png'),
                    char_im)
 
 
