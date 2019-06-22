@@ -47,7 +47,7 @@ def find_y_loc_seg(h_proj):
         else:
             break
 
-    max_h = len(h_proj)
+    max_h = len(h_proj) - 1
     for i, vp_val in reversed(list(enumerate(h_proj))):
         if vp_val == 0:
             max_h = i
@@ -285,11 +285,8 @@ def plot_word_segs(im, word_gaps):
         cv.line(im, (gap_loc, 0), (gap_loc, im.shape[0]), (255, 0, 0), 1)
 
 
-def extract_char_save_fold(short_path_arr, im, st, end_seg, line_num, word_num, x_min, x_max, path_present, scrol_name):
+def extract_char_save_fold(short_path_arr, im, st, end_seg, line_num, word_num, x_min, x_max, path_present, scrol_name, x_min_ch_st,x_max_ch_end):
     save_path = os.path.join('tmp',str(scrol_name.split('.')[0]), str(line_num), str(word_num))
-
-    if not os.path.exists(save_path):
-        os.makedirs(save_path)
 
     if path_present:        
         end = st + max(short_path_arr)
@@ -313,22 +310,38 @@ def extract_char_save_fold(short_path_arr, im, st, end_seg, line_num, word_num, 
         # print(max(short_path_arr))
 
         # print('---------')
-        if not st == end:
+        if (end - st) >= 15 :
+            if not os.path.exists(save_path):
+                os.makedirs(save_path)
+            
+            char_im_copy = np.zeros(((x_max_ch_end-x_min_ch_st)+10,char_im.shape[1]+10))
+            char_im_copy[5:-5,5:-5] = char_im[x_min_ch_st:x_max_ch_end]
             cv.imwrite(os.path.join(save_path, 'char_' + 'col_st_'+str(st) + '_col_end_'+str(end) + '_row_st_'+str(x_min) + '_row_end_'+str(x_max) + '.png'),
-                   char_im)
-        if not st_2_seg == end_seg:
+                   char_im_copy)
+        if (end_seg - st_2_seg) >= 15:
+
+            if not os.path.exists(save_path):
+                os.makedirs(save_path)
+
+            char_im2_copy = np.zeros(((x_max_ch_end-x_min_ch_st)+10,char_im2.shape[1]+10))
+            char_im2_copy[5:-5,5:-5] = char_im2[x_min_ch_st:x_max_ch_end]
             cv.imwrite(
             os.path.join(save_path, 'char_' +'col_st_'+str(st_2_seg) + '_col_end_'+str(end_seg - 1) + '_row_st_'+str(x_min) + '_row_end_'+str(x_max) + '.png'),
-            char_im2)
+            char_im2_copy)
     else:
         # print('-----------extract no path')
         # print(st)
         # print(end_seg)
         # print('---------')
         char_im = im[0:x_max, st:end_seg]
-        if not st == end_seg:
-            cv.imwrite(os.path.join(save_path, 'char_' + 'col_st_'+str(st) + '_col_end_'+str(end_seg) + '_row_st_'+str(x_min) + '_row_end_'+str(x_max) + '.png'),
-                   char_im)
+        if (end_seg - st) >= 15:
+            if not os.path.exists(save_path):
+                os.makedirs(save_path)
+
+            char_im_copy = np.zeros(((x_max_ch_end-x_min_ch_st)+10,char_im.shape[1]+10))
+            char_im_copy[5:-5,5:-5] = char_im[x_min_ch_st:x_max_ch_end]
+            cv.imwrite(os.path.join(save_path, 'char_' + 'col_st_'+str(st) + '_col_end_'+str(end_seg) + '_row_st_'+str(x_min) + '_row_end_'+str(x_max)+ '.png'),
+                   char_im_copy)
 
 
 def over_seg_and_graph(images, scrol_name):
@@ -412,12 +425,12 @@ def over_seg_and_graph(images, scrol_name):
                     # print('---------')
                     short_path_arr = multi_stage_graph(char_seg_col[i - 1], char_seg_col[i] -5, im)
                     extract_char_save_fold(short_path_arr, im, char_seg_col[i - 1], char_seg_col[i] + 1, im_ct,
-                                           (len(word_gaps) - cur_word_num)+1 , 0, im.shape[0], True, scrol_name)
+                                           (len(word_gaps) - cur_word_num)+1 , 0, im.shape[0], True, scrol_name,y_min,y_max)
                     #draw_cv_line(short_path_arr,im,char_seg_col[i-1])
                 else :
                     short_path_arr = []
                     extract_char_save_fold(short_path_arr, im, char_seg_col[i - 1], char_seg_col[i] + 1, im_ct,
-                                           (len(word_gaps) - cur_word_num)+1 , 0, im.shape[0], False, scrol_name)
+                                           (len(word_gaps) - cur_word_num)+1 , 0, im.shape[0], False, scrol_name,y_min,y_max)
 
                 
                 cv.line(im, (char_seg_col[i],0), (char_seg_col[i], im.shape[0]), (255,0,0), 1)
