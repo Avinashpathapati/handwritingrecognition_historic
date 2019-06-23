@@ -61,8 +61,8 @@ def main():
         name = names[i]
         i += 1
         over_seg_and_graph(line_images, name)
-        classify('./tmp')
-        transcribe_scrolls('./tmp', './output')
+    classify('./tmp')
+    transcribe_scrolls('./tmp', './output')
 
 
 if __name__=='__main__':
