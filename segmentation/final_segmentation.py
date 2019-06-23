@@ -446,7 +446,7 @@ def over_seg_and_graph(images, scrol_name):
                                            (len(word_gaps) - cur_word_num)+1 , 0, im.shape[0], False, scrol_name,y_min,y_max)
 
                 
-                cv.line(im, (char_seg_col[i],0), (char_seg_col[i], im.shape[0]), (255,0,0), 1)
+                #cv.line(im, (char_seg_col[i],0), (char_seg_col[i], im.shape[0]), (255,0,0), 1)
 
                 # short_path_arr = multi_stage_graph(char_seg_col[i-1], char_seg_col[i]+1, im,y_min,y_max)
                 #if (char_seg_col[i - 1] + short_path_arr[len(short_path_arr) / 2]) - char_seg_col[i - 1] > 30:
@@ -458,7 +458,7 @@ def over_seg_and_graph(images, scrol_name):
                                            #(len(word_gaps) - cur_word_num)+1 , 0, im.shape[0], False, scrol_name)
 
         print('finished processing line ', str(im_ct))
-        cv.imwrite('word_seg_'+str(scrol_name)+str(im_ct)+'.png', im)
+        #cv.imwrite('word_seg_'+str(scrol_name)+str(im_ct)+'.png', im)
 
     print('finished processing scrol ', str(scrol_name))
     # multi_stage_graph(0, 3, graph)
