@@ -314,8 +314,12 @@ def extract_char_save_fold(short_path_arr, im, st, end_seg, line_num, word_num, 
             if not os.path.exists(save_path):
                 os.makedirs(save_path)
             
-            char_im_copy = np.zeros(((x_max_ch_end-x_min_ch_st)+10,char_im.shape[1]+10))
-            char_im_copy[5:-5,5:-5] = char_im[x_min_ch_st:x_max_ch_end]
+            h_proj = np.sum(char_im, 1)
+            x_min_new, x_max_new = find_y_loc_seg(h_proj)
+            x_max_new = x_max_new + 1
+            char_im_copy = np.zeros(((x_max_new-x_min_new)+10,char_im.shape[1]+10))
+            char_im_copy[5:-5,5:-5] = char_im[x_min_new:x_max_new]
+            char_im_copy = 255 - char_im_copy
             cv.imwrite(os.path.join(save_path, 'char_' + 'col_st_'+str(st) + '_col_end_'+str(end) + '_row_st_'+str(x_min) + '_row_end_'+str(x_max) + '.png'),
                    char_im_copy)
         if (end_seg - st_2_seg) >= 15:
@@ -323,8 +327,13 @@ def extract_char_save_fold(short_path_arr, im, st, end_seg, line_num, word_num, 
             if not os.path.exists(save_path):
                 os.makedirs(save_path)
 
-            char_im2_copy = np.zeros(((x_max_ch_end-x_min_ch_st)+10,char_im2.shape[1]+10))
-            char_im2_copy[5:-5,5:-5] = char_im2[x_min_ch_st:x_max_ch_end]
+            h_proj = np.sum(char_im2, 1)
+            x_min_new, x_max_new = find_y_loc_seg(h_proj)
+            x_max_new = x_max_new + 1
+
+            char_im2_copy = np.zeros(((x_max_new-x_min_new)+10,char_im2.shape[1]+10))
+            char_im2_copy[5:-5,5:-5] = char_im2[x_min_new:x_max_new]
+            char_im2_copy = 255 - char_im2_copy
             cv.imwrite(
             os.path.join(save_path, 'char_' +'col_st_'+str(st_2_seg) + '_col_end_'+str(end_seg - 1) + '_row_st_'+str(x_min) + '_row_end_'+str(x_max) + '.png'),
             char_im2_copy)
@@ -334,12 +343,16 @@ def extract_char_save_fold(short_path_arr, im, st, end_seg, line_num, word_num, 
         # print(end_seg)
         # print('---------')
         char_im = im[0:x_max, st:end_seg]
+        h_proj = np.sum(char_im, 1)
+        x_min_new, x_max_new = find_y_loc_seg(h_proj)
+        x_max_new = x_max_new + 1
         if (end_seg - st) >= 15:
             if not os.path.exists(save_path):
                 os.makedirs(save_path)
 
-            char_im_copy = np.zeros(((x_max_ch_end-x_min_ch_st)+10,char_im.shape[1]+10))
-            char_im_copy[5:-5,5:-5] = char_im[x_min_ch_st:x_max_ch_end]
+            char_im_copy = np.zeros(((x_max_new-x_min_new)+10,char_im.shape[1]+10))
+            char_im_copy[5:-5,5:-5] = char_im[x_min_new:x_max_new]
+            char_im_copy = 255 - char_im_copy
             cv.imwrite(os.path.join(save_path, 'char_' + 'col_st_'+str(st) + '_col_end_'+str(end_seg) + '_row_st_'+str(x_min) + '_row_end_'+str(x_max)+ '.png'),
                    char_im_copy)
 
